@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Sylt '26">
 <meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#F0EAE0">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiU3lsdCAyMDI2Iiwic2hvcnRfbmFtZSI6IlN5bHQgMjYiLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMEQxQjJFIiwidGhlbWVfY29sb3IiOiIjMEQxQjJFIiwic3RhcnRfdXJsIjoiLiIsImljb25zIjpbXX0=">
 <title>Sylt · Juli 2026</title>
 <style>
 /* ══ TOKENS — Light only, Ole's palette ══ */
@@ -90,7 +91,7 @@ input{font:inherit;color:inherit;background:none;border:none;outline:none}
   background:rgba(250,250,247,.96);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
   border-top:.5px solid var(--sep);z-index:100}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;color:var(--l4);transition:color .15s;padding:4px 0;
+  gap:3px;color:var(--l4);transition:color .15s;padding:10px 0 4px;
   font-size:11px;font-weight:600;letter-spacing:.2px;min-height:44px}
 .tab.on{color:var(--navy)}
 
@@ -594,6 +595,22 @@ function showShell(){
   const sh=document.getElementById('shell');if(sh)sh.style.display='flex';
 }
 
+// Reconnect + refresh when returning to the app (iOS kills EventSource in background)
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState!=='visible')return;
+  fetch(dbUrl()).then(r=>r.json()).then(data=>{
+    if(data&&typeof data==='object'&&data.visited!==undefined){
+      if(Date.now()-_lastWrite<2000)return;
+      S=data;
+      if(!S.visited)S.visited={};
+      if(!S.assigned)S.assigned={};
+      if(!S.order)S.order={};
+      renderAll();setSyncStatus('ok');
+    }
+  }).catch(()=>{});
+  fbListen(); // rebuild the EventSource connection
+});
+
 function initSync(){
   loadS();renderAll();showShell();
   const urlCode=new URLSearchParams(location.search).get('code')||'';
@@ -651,7 +668,7 @@ const REGION={hoernum:'Südspitze',rantum:'Südl. Mitte',westerland:'Inselmitte'
 const LOC_NAME={hoernum:'Hörnum',rantum:'Rantum',westerland:'Westerland',keitum:'Keitum',wenningstedt:'Wenningstedt',kampen:'Kampen',morsum:'Morsum'};
 function locLabel(loc){return (LOC_NAME[loc]||loc)+' ('+(REGION[loc]||'')+')';}
 const CATS=[{id:'restaurant',l:'Restaurant'},{id:'cafe',l:'Café & Snack'},{id:'spaziergang',l:'Spaziergang'},{id:'radtour',l:'Radtour'},{id:'strand',l:'Strand'},{id:'einkaufen',l:'Einkaufen'}];
-const LOCS=[{id:'hoernum',l:'Hörnum'},{id:'rantum',l:'Rantum'},{id:'westerland',l:'Westerland'},{id:'keitum',l:'Keitum'},{id:'wenningstedt',l:'Wenningstedt'},{id:'kampen',l:'Kampen'},{id:'morsum',l:'Morsum'}];
+const LOCS=[{id:'hoernum',l:'Hörnum'},{id:'rantum',l:'Rantum'},{id:'westerland',l:'Westerland'},{id:'keitum',l:'Keitum'},{id:'wenningstedt',l:'Wenningstedt'},{id:'kampen',l:'Kampen'},{id:'morsum',l:'Morsum'},{id:'list',l:'List'}];
 const DAYS=[{id:'sa',s:'Sa 18.',l:'Samstag, 18. Juli',note:'',sp:false},{id:'so',s:'So 19.',l:'Sonntag, 19. Juli',note:'',sp:false},{id:'mo',s:'Mo 20.',l:'Montag, 20. Juli',note:'',sp:false},{id:'di',s:'Di 21.',l:'Dienstag, 21. Juli',note:'',sp:true},{id:'mi',s:'Mi 22.',l:'Mittwoch, 22. Juli',note:'',sp:false},{id:'do',s:'Do 23.',l:'Donnerstag, 23. Juli',note:'',sp:false}];
 
 
@@ -710,6 +727,14 @@ const P=[
    info:'Handwerksbäckerei in Morsum. Mo–Sa ab 7:00 Uhr. RE von Westerland nach Morsum, 2 Stationen.',
    feel:'Sauerteigbrot mit echter Kruste, Brötchen die nach Brot schmecken. RE nach Morsum, frühstücken, zurück — perfekter Morgen.',
    t:['Frühstück','Auch bei Regen','Beste Bäckerei Sylts'],m:'Bäckerei Ingwersen Morsum Sylt'},
+  {id:'ellenbogen',n:'Ellenbogen',sub:'Nördlichster Punkt Deutschlands — Wanderdünen und Einsamkeit',c:'spaziergang',loc:'list',tr:'rad',hl:true,rain:false,veg:false,dist:'~40 km · Tagestour Rad',hours:'Immer zugänglich',
+   info:'Nördlichste Landspitze Deutschlands. Private Mautstraße: Autos ~€8, Räder frei. Ab List ~30 Min per Rad.',
+   feel:'Karge Dünenlandschaft, zwei Leuchttürme, kaum Menschen — das wilde Ende der Insel. Mit dem E-Bike ab Kampen gut machbar, unbedingt Wind einplanen.',
+   t:['Räder mautfrei','Viel Wind','Tagestour'],m:'Ellenbogen List Sylt'},
+  {id:'hafen-list',n:'Hafen List',sub:'Nördlichster Hafen Deutschlands — Gosch-Stammhaus und Fährblick',c:'cafe',loc:'list',tr:'rad',hl:false,rain:true,veg:true,dist:'~38 km · Tagestour Rad',hours:'Hafen immer, Buden ca. 11–20 Uhr',
+   info:'Hafenpromenade mit Fischbuden, Gosch-Stammhaus seit 1972, Fähre nach Rømø (DK).',
+   feel:'Fischbrötchen am Original-Gosch, Fähren gucken, dänische Nordsee-Atmosphäre. Perfekte Mittagspause auf der Nord-Tour.',
+   t:['Gosch-Original','Auch bei Regen'],m:'Hafen List Sylt'},
   {id:'strand-h',n:'Nordseestrand Hörnum',sub:'Breiter Sandstrand — 5 Minuten vom Hotel',c:'strand',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:false,dist:'5 min · Zu Fuß',
    info:'Breiter weißer Sandstrand, 5 Min Fußweg. Strandkörbe ~€12/Tag. Strandgebühr ~€4/P täglich.',
    feel:'Abends gegen 21:30 Uhr hier sitzen und die Sonne untergehen sehen. Einen Abend nur das.',
@@ -857,7 +882,7 @@ document.getElementById('ico-xc').innerHTML=svg('xcirc',16,2);
 const Circ=2*Math.PI*11;
 function updateBadge(){
   // Count real places that are planned (exclude fixed checkin/checkout)
-  const realP=P.filter(p=>!p.fixed);
+  const realP=P.filter(p=>!p.fixed&&p.c!=='einkaufen');
   const n=realP.filter(p=>S.assigned[p.id]).length;
   const total=realP.length;
   document.getElementById('pc').textContent=n+' / '+total;
@@ -1193,6 +1218,9 @@ const TOUREN=[
   {id:'wenningstedt',name:'Wenningstedt & Heide',ico:'🌿',region:'Wenningstedt',tr:'rad',duration:'~4 Std.',
    sub:'Braderuper Heide liegt direkt auf dem Weg zum Kliffweg — beides lässt sich an einem Nachmittag verbinden.',
    items:[{id:'braderuper',t:'vormittag'},{id:'kliffweg',t:'nachmittag'},{id:'fitschen',t:'abend'}]},
+  {id:'grosser-norden',name:'Großer Norden',ico:'🧭',region:'Kampen → List → Ellenbogen',tr:'rad',duration:'~7 Std.',
+   sub:'Die große E-Bike-Tagestour ans wilde Ende der Insel — über Kampen nach List, Fischbrötchen am Hafen, dann zum Ellenbogen.',
+   items:[{id:'kupferkanne',t:'vormittag'},{id:'hafen-list',t:'mittag'},{id:'ellenbogen',t:'nachmittag'}]},
   {id:'kampen-abschluss',name:'Kampen-Abschluss',ico:'🏔️',region:'Kampen',tr:'rad',duration:'~5 Std.',
    sub:'Strönwai, Vogelkoje und Kupferkanne liegen alle im Ortskern von Kampen — kompakt zu Fuß erkundbar.',
    items:[{id:'stronwai',t:'vormittag'},{id:'vogelkoje',t:'mittag'},{id:'kupferkanne',t:'nachmittag'},{id:'dorfkrug',t:'abend'}]},
