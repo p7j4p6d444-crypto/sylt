@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sylt '26">
+<meta name="color-scheme" content="only light">
+<meta name="theme-color" content="#F0EAE0">
+<title>Sylt · Juli 2026</title>
+<style>
+/* ══ TOKENS — Light only, Ole's palette ══ */
+:root{
+  color-scheme: light;
+  --navy:  #0D1B2E;
+  --blue:  #4A90C4;
+  --primary: #1E6CB0;
+  --gold:  #B8832A;
+  --sand:  #F0EAE0;
+  --cream: #FAFAF7;
+  --white: #FFFFFF;
+  --l1:    #0D1B2E;
+  --l2:    rgba(13,27,46,.64);
+  --l3:    rgba(13,27,46,.44);
+  --l4:    rgba(13,27,46,.28);
+  --sep:   rgba(13,27,46,.08);
+  --fill:  rgba(13,27,46,.05);
+  --fill2: rgba(13,27,46,.09);
+  --tint:  #B8832A;
+  --red:   #C03030;
+  --grn:   #1A6640;
+  --cat-rest:#D9731E;--cat-cafe:#8B2E2E;--cat-spa:#1A6640;
+  --cat-rad:#2260A8;--cat-str:#1499A0;--cat-ein:#685820;
+  --serif: "New York",ui-serif,Georgia,serif;
+  --sans:  -apple-system,"SF Pro Text",BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  --r:     21px;
+  --rlg:   22px;
+  --rp:    100px;
+  --ph:    16px;
+  --blur:  blur(34px) saturate(190%);
+  --spring:cubic-bezier(0.32,0.72,0,1);
+  /* Apple App Store style card shadow */
+  --sh: 0 1px 3px rgba(13,27,46,.05), 0 4px 14px rgba(13,27,46,.07), 0 10px 28px rgba(13,27,46,.06);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--navy)}
+body{background:var(--sand);min-height:100vh;overflow-x:hidden}
+body.sheet-open{overflow:hidden;position:fixed;width:100%}
+body{font-family:var(--sans);background:var(--sand);color:var(--l1);-webkit-font-smoothing:antialiased;overscroll-behavior:none;color-scheme:light}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
+svg{display:block;flex-shrink:0}
+input{font:inherit;color:inherit;background:none;border:none;outline:none}
+
+#shell{display:flex;flex-direction:column;min-height:100vh}
+
+/* ══ NAV — Navy background with Ole's palette ══ */
+#safe-top{position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:var(--navy);z-index:200}
+#nav{flex:none;z-index:100;
+  margin-top:env(safe-area-inset-top,0px);
+  padding:10px var(--ph) 10px;
+  background:var(--navy);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:space-between;
+  max-height:80px;overflow:hidden;
+  transition:max-height .25s ease,opacity .2s ease,padding .25s ease,border-color .25s ease}
+#nav.collapsed{max-height:0;opacity:0;padding-top:0;padding-bottom:0;border-bottom-color:transparent}
+#nav-title-wrap{display:flex;align-items:baseline;gap:7px}
+#nav-title-main{font-family:var(--serif);font-weight:700;color:var(--white);
+  font-size:24px;letter-spacing:0px;line-height:1;
+  transition:font-size .15s ease,letter-spacing .15s ease}
+#nav-title-year{font-family:var(--sans);font-weight:400;color:rgba(255,255,255,.5);
+  font-size:14px;letter-spacing:.4px;line-height:1;
+  transition:font-size .15s ease,opacity .15s ease}
+#pw{display:flex;align-items:center;gap:7px}
+#pc{font-size:12px;font-weight:600;color:var(--gold)}
+#prs{transform:rotate(-90deg)}
+#prb{fill:none;stroke:rgba(255,255,255,.15);stroke-width:2}
+#prr{fill:none;stroke:var(--gold);stroke-width:2.2;stroke-linecap:round;
+  stroke-dasharray:69.12;stroke-dashoffset:69.12;transition:stroke-dashoffset .6s ease}
+#sync-dot{display:none!important}
+
+#sc{flex:1}
+
+/* ══ TABS — White with navy active ══ */
+#tabs{position:fixed;bottom:0;left:0;right:0;height:calc(49px + env(safe-area-inset-bottom,0px) - 6px);
+  padding-bottom:calc(env(safe-area-inset-bottom,0px) - 6px);display:flex;
+  background:rgba(250,250,247,.96);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
+  border-top:.5px solid var(--sep);z-index:100}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;color:var(--l4);transition:color .15s;padding:4px 0;
+  font-size:11px;font-weight:600;letter-spacing:.2px;min-height:44px}
+.tab.on{color:var(--navy)}
+
+/* ══ DISCOVER HEADER ══ */
+#dhdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;
+  background:rgba(240,234,224,.82);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+#dhdr::after{content:'';position:absolute;left:0;right:0;bottom:-18px;height:18px;
+  background:linear-gradient(to bottom,rgba(240,234,224,.55),rgba(240,234,224,0));
+  pointer-events:none}
+
+/* Search — the icon itself morphs into the search bar, same row height always */
+#sbar{display:flex;align-items:center;gap:0;
+  flex:0 0 32px;height:32px;border-radius:10px;
+  background:none;overflow:hidden;
+  transition:flex-grow .22s ease,background .2s ease,padding .2s ease}
+#sbar.open{flex:1 1 32px;background:var(--fill2);gap:6px;padding:0 6px 0 2px;margin-right:var(--ph)}
+#sinput{flex:0;width:0;min-width:0;font-size:15px;caret-color:var(--tint);
+  opacity:0;transition:flex .2s ease,opacity .15s ease}
+#sbar.open #sinput{flex:1;width:auto;opacity:1}
+#sinput::placeholder{color:var(--l2)}
+#sclr{flex:none;width:0;overflow:hidden;color:var(--l2);opacity:0;
+  transition:width .15s ease,opacity .15s ease}
+#sclr.vis{width:18px;opacity:1}
+
+/* Filter row + search toggle */
+#fr-outer{display:flex;align-items:center;padding:10px 0 10px var(--ph);gap:0}
+#sbar{margin-right:10px}
+#sbar.open + .fr-divider{display:none}
+.search-toggle-btn{flex:none;width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:none;color:var(--l4);transition:color .14s}
+#sbar.open .search-toggle-btn{color:var(--navy)}
+.search-toggle-btn:active{opacity:.6}
+.fr-divider{flex:none;width:1px;height:32px;flex-shrink:0;background:var(--sep)}
+#frow{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;height:32px;
+  padding-left:8px;padding-right:var(--ph);
+  -webkit-mask-image:linear-gradient(to right,transparent 0px,black 8px);
+  mask-image:linear-gradient(to right,transparent 0px,black 8px)}
+#frow.hidden{display:none}
+#frow::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:6px 13px;border-radius:var(--rp);background:var(--fill2);
+  font-size:12px;font-weight:500;color:var(--l3);white-space:nowrap;
+  min-height:32px;display:flex;align-items:center;gap:5px;
+  transition:background .14s,color .14s}
+.chip:active{opacity:.65}
+.chip.on{background:var(--navy);color:var(--white)}
+.chip-rain.on{background:var(--blue);color:var(--white)}
+.chip-hl.on{background:var(--gold);color:var(--white)}
+.chip-x{font-size:17px;line-height:1;font-weight:400;opacity:.8;padding:0 1px}
+.chip-x:active{opacity:.45}
+#filterbtn{flex:none;display:flex;align-items:center;gap:4px;padding:6px 12px;
+  border-radius:var(--rp);border:1.5px solid var(--sep);min-height:32px;
+  font-size:12px;font-weight:500;color:var(--l2);
+  transition:border-color .14s,color .14s}
+#filterbtn.active{border-color:var(--tint);color:var(--tint)}
+#filterbtn:active{opacity:.65}
+#fbadges{display:none;padding:0 var(--ph) 8px;gap:6px;flex-wrap:wrap}
+#fbadges.vis{display:flex}
+.fbadge{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:var(--rp);
+  background:rgba(184,131,42,.12);color:var(--tint);display:flex;align-items:center;gap:4px}
+.fbadge button{font-size:14px;color:var(--tint)}
+
+/* Empty states */
+.empty-state{padding:48px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.empty-state svg{color:var(--l4)}
+.es-t{font-size:16px;font-weight:600;color:var(--l2)}
+.es-s{font-size:14px;color:var(--l3);line-height:1.55;max-width:220px}
+
+/* ══ PLACE LIST ══ */
+#pl{padding:12px var(--ph) calc(70px + env(safe-area-inset-bottom,0px))}
+
+/* ══ CARD WRAPPER ══ */
+.cw{position:relative;margin-bottom:12px}
+
+/* ══ CARD — shadow, border-radius, overflow:hidden ══ */
+.card{background:var(--white);border-radius:var(--r);overflow:hidden;
+  position:relative;z-index:1;
+  box-shadow:var(--sh);
+  transform:translateX(0);will-change:transform;
+  transition:transform .42s var(--spring)}
+
+/* ══ COMPACT HEADER ══ */
+.cc{display:flex;gap:10px;padding:13px 0 11px 14px;cursor:pointer;
+  user-select:none;-webkit-user-select:none;transition:background .1s}
+.cc:active{background:rgba(13,27,46,.03)}
+.cc-left{flex:1;min-width:0}
+
+/* Meta row: cat-chip + location(region) + highlight star */
+.cc-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:5px}
+/* Category chip — replaces dot, directly readable */
+.cat-chip{font-size:11px;font-weight:700;padding:2px 9px;border-radius:var(--rp);letter-spacing:.2px}
+.ch-restaurant{background:rgba(217,115,30,.12);color:var(--cat-rest)}
+.ch-cafe{background:rgba(139,46,46,.1);color:var(--cat-cafe)}
+.ch-spaziergang{background:rgba(26,102,64,.1);color:var(--cat-spa)}
+.ch-radtour{background:rgba(34,96,168,.1);color:var(--cat-rad)}
+.ch-strand{background:rgba(20,153,160,.1);color:var(--cat-str)}
+.ch-einkaufen{background:rgba(104,88,32,.1);color:var(--cat-ein)}
+/* Transport badges */
+.tr-b{display:inline-flex;align-items:center;font-size:11px;font-weight:700;
+  padding:2px 8px;border-radius:var(--rp);flex-shrink:0}
+.tr-fuss{background:rgba(26,102,64,.1);color:var(--cat-spa)}
+.tr-rad{background:rgba(34,96,168,.1);color:var(--cat-rad)}
+.tr-bus{background:rgba(74,144,196,.1);color:var(--blue)}
+.tr-re{background:rgba(236,0,22,.1);color:#CC0012;font-weight:700}
+/* Location + region combined text */
+.loc-label{font-size:11px;font-weight:400;color:var(--l3)}
+/* Highlight star pill — icon only */
+.hl-pill{width:18px;height:18px;border-radius:50%;background:rgba(184,131,42,.12);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold)}
+/* Assigned badge */
+.asgn-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:var(--rp);
+  background:var(--fill2);color:var(--l2)}
+
+/* Card name */
+.cc-name{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--l1);
+  line-height:1.2;margin-bottom:3px}
+/* Short descriptive subtitle — Regular, not italic, max 2 lines */
+.cc-sub{font-size:13px;font-weight:400;color:var(--l2);line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Right side: single + button, icon only — gray, static, no hover */
+.cc-right{display:flex;align-items:center;flex-shrink:0;padding-top:2px;padding-right:8px}
+.act-plus{width:44px;height:44px;border-radius:50%;display:flex;
+  align-items:center;justify-content:center;
+  background:none;color:var(--l4);flex-shrink:0}
+
+/* ══ CARD DETAIL — grid animation ══ */
+.cd{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.cw.open .cd{grid-template-rows:1fr}
+.cd-inner{overflow:hidden}
+
+/* Feel text — the one remaining detail copy: warm, personal, gold left border */
+.c-feel{margin:2px 14px 12px;padding:9px 12px;
+  border-left:2.5px solid var(--gold);
+  background:rgba(184,131,42,.04);
+  border-radius:0 8px 8px 0;
+  font-size:14px;font-weight:400;color:var(--l2);line-height:1.6}
+
+/* Apple Settings-style info list: stacked label/value rows */
+.info-list{margin:0 14px 10px;border-top:.5px solid var(--sep)}
+.info-row{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:8px 0;border-bottom:.5px solid var(--sep)}
+.info-label{font-size:12px;color:var(--l3);font-weight:400;flex-shrink:0}
+.info-value{font-size:13px;color:var(--l1);font-weight:500;text-align:right}
+.pipe-sep{font-weight:500}
+
+.c-ts{padding:0 14px 8px;font-size:11px;font-weight:400;color:var(--l3)}
+
+/* Detail actions — Maps primary navy, Phone secondary blue */
+.c-det-acts{display:flex;gap:8px;padding:8px 14px 14px;margin-top:2px}
+.det-act{display:flex;align-items:center;gap:6px;padding:11px 14px;border-radius:11px;
+  font-size:13.5px;font-weight:600;transition:opacity .12s,transform .1s;flex:1;justify-content:center}
+.det-act:active{opacity:.82;transform:scale(.98)}
+.det-maps{color:#fff;background:var(--primary)}
+.det-phone{color:var(--blue);background:rgba(74,144,196,.13)}
+
+/* ══ PLAN VIEW ══ */
+#plan{padding:20px var(--ph) calc(70px + env(safe-area-inset-bottom,0px))}
+.dg{margin-bottom:28px}
+.dt{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--navy);margin-bottom:10px;display:flex;align-items:baseline;gap:6px}
+.dm{font-size:13px;color:var(--l2)}
+
+/* Jahrestag: minimal — just a small red heart inline, no box */
+.dt-heart{color:var(--red);font-size:15px;margin-left:2px}
+.dt-hint{font-size:12.5px;color:var(--l2);margin-top:2px;font-weight:400}
+
+.dslots{background:var(--white);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.d-empty{display:none}/* replaced by plan-empty-card */
+.plan-empty-card{display:flex;align-items:center;padding:0 14px;min-height:50px;
+  color:var(--l3);font-size:13px;font-weight:400}
+.pr-fixed{display:flex;align-items:center;gap:8px;padding:11px 12px 11px 14px;min-height:50px;
+  border-top:.5px solid var(--sep)}
+.pr-fixed-time{width:50px;flex-shrink:0;font-size:13px;font-weight:600;color:var(--l2)}
+.pr-fixed-title{font-size:13px;color:var(--l2);font-style:normal;font-weight:400}
+.d-empty svg{color:var(--l4)}
+.de-t{font-size:14px;font-weight:500;color:var(--l2)}
+.de-s{font-size:13px;font-weight:400;color:var(--l3);line-height:1.5;max-width:240px}
+
+/* ══ TOUREN TAB ══ */
+#touren{padding:14px var(--ph) calc(70px + env(safe-area-inset-bottom,0px))}
+.tour-card{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);
+  padding:14px 15px;margin-bottom:12px}
+.tour-name{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--l1);margin-top:6px}
+.tour-subline{font-size:13px;font-weight:400;color:var(--l2);margin-top:2px;margin-bottom:10px}
+.tour-sub{font-size:14px;font-weight:400;color:var(--l2);line-height:1.6;margin-bottom:10px}
+.tour-meta{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tour-pipe{font-size:13px;font-weight:400;color:var(--l3)}
+.tour-meta-text{font-size:13px;font-weight:400;color:var(--l2)}
+.tour-timeline{margin-bottom:14px}
+.tl-item{display:flex;align-items:stretch;gap:10px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:18px;flex-shrink:0}
+.tl-line-top,.tl-line-bottom{flex:1;width:1px;background:var(--sep);min-height:6px}
+  .tl-line-top{margin-bottom:4px}
+  .tl-line-bottom{margin-top:4px}
+.tour-subline{font-size:13px;font-weight:500;color:var(--l2);margin-top:2px}
+.tl-dot{width:6px;height:6px;border-radius:50%;background:var(--l3);flex-shrink:0}
+.tl-item:first-child .tl-line-top{visibility:hidden}
+.tl-item:last-child .tl-line-bottom{visibility:hidden}
+/* Right side wrapper — divider starts here (at text level) */
+.tl-right{flex:1;display:flex;align-items:center;gap:6px;
+  border-top:.5px solid var(--sep);padding:11px 0}
+.tl-item:first-child .tl-right{border-top:none;padding-top:8px}
+.tl-item:last-child .tl-right{padding-bottom:8px}
+.tl-name{font-size:14px;font-weight:600;color:var(--l1);flex:1}
+.tl-cat{font-size:11.5px;font-weight:400;color:var(--l3);vertical-align:baseline}
+.tl-info-btn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;color:rgba(13,27,46,.28);background:none;flex-shrink:0}
+.tl-info-btn:active{opacity:.4}
+/* plan section header in discover */
+.plan-divider{height:.5px;background:var(--sep);margin:22px 10px 22px}
+/* Hotel pin card at top of Orte */
+.hotel-section{padding:10px 8px 0 10px;margin-bottom:0}
+.hotel-section-name{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--l1);margin-bottom:2px}
+.hotel-section-addr{font-size:13px;font-weight:400;color:var(--l2);margin-bottom:0}
+.hotel-section-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.hotel-section-chev{color:var(--l4);transition:transform .25s ease;flex-shrink:0;margin-right:13px}
+.hotel-section.open .hotel-section-chev{transform:rotate(-90deg)}
+.hotel-section-acts{display:none;gap:8px;margin-top:12px;margin-bottom:0}
+.hotel-section.open .hotel-section-acts{display:flex}
+.hotel-section-sep{height:.5px;background:var(--sep);margin:16px 0}
+.tour-place-chip{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:var(--rp);
+  background:var(--fill);color:var(--l1)}
+.tour-btn{width:100%;min-height:42px;border-radius:10px;background:var(--primary);color:#fff;
+  font-size:14px;font-weight:600;transition:opacity .14s}
+.tour-btn:active{opacity:.8}
+
+.pr{display:flex;align-items:center;gap:14px;padding:11px 12px 11px 14px;min-height:50px;
+  border-top:.5px solid var(--sep);transition:background .1s,opacity .2s}
+.pr.dragging-row{background:var(--fill);box-shadow:0 4px 14px rgba(0,0,0,.12);border-radius:10px}
+
+.pr-time-btn{flex:none;width:46px;text-align:left;font-size:13px;font-weight:500;
+  color:var(--navy);background:none;padding:4px 0;
+  font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.pr-time-btn.unset{color:var(--l4);font-weight:400}
+.pr-time-btn:active{opacity:.6}
+
+.pr-mid{flex:1;min-width:0;cursor:pointer}
+.pr-mid-title{font-size:13px;font-weight:600;color:var(--l1);line-height:1.3}
+.pr.done .pr-mid-title{text-decoration:line-through;color:var(--l2)}
+
+.pr-right{display:flex;align-items:center;gap:2px;flex-shrink:0}
+
+/* Plan row swipe-to-delete */
+.pr-wrap{position:relative;overflow:hidden}
+.pr-behind{position:absolute;top:0;bottom:0;right:0;width:72px;background:var(--red);
+  display:flex;align-items:center;justify-content:center;pointer-events:none}
+.pr-behind-btn{width:20px;height:20px;border-radius:50%;background:#fff;
+  display:flex;align-items:center;justify-content:center;color:var(--red);pointer-events:none}
+.pr-type{font-size:12px;font-weight:400;color:var(--l3)}
+/* i-button: same color as drag handle */
+.pr-remove{width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:none;color:var(--l4);display:flex;align-items:center;justify-content:center;
+  transition:opacity .12s}
+.pr-remove:active{opacity:.4}
+.pr-handle{width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  color:var(--l4);touch-action:none}
+
+/* Time input overlaid on time button for direct iOS picker */
+.pr-time-wrap{position:relative;width:46px;flex-shrink:0;display:flex;align-items:center}
+.pr-time-hidden{position:absolute;inset:0;width:100%;height:100%;opacity:0;
+  font-size:16px;cursor:pointer;color-scheme:light;border:none;background:none}
+
+.jt-note{padding:10px 14px;border-top:.5px solid var(--sep);font-size:13px;color:var(--l2);
+  line-height:1.5;display:flex;gap:8px;align-items:flex-start}
+.jt-note svg{color:var(--gold);flex-shrink:0;margin-top:2px}
+
+.view{display:none}.view.on{display:block}
+
+/* ══ SHEETS ══ */
+#ov,#fov,#tov,#iov{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0);
+  transition:background .28s;display:flex;align-items:flex-end;justify-content:center;pointer-events:none}
+#ov.on,#fov.on,#tov.on,#iov.on{background:rgba(0,0,0,.48);pointer-events:all}
+.sheet{width:100%;max-width:430px;background:var(--white);
+  border-radius:var(--rlg) var(--rlg) 0 0;
+  padding:8px var(--ph) calc(16px + env(safe-area-inset-bottom,0px));
+  max-height:82vh;overflow-y:auto;touch-action:pan-y;
+  transform:translateY(100%);transition:transform .46s var(--spring);will-change:transform}
+#ov.on .sheet,#fov.on .sheet,#tov.on .sheet,#iov.on .sheet{transform:translateY(0)}
+.sheet.dragging{transition:none}
+.sdl{width:36px;height:5px;border-radius:3px;background:var(--fill2);margin:0 auto 18px}
+.shn{font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:18px}
+#iov-sheet .shn{margin-left:14px}
+.ssec{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--l3);margin-bottom:8px}
+.ssec-opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--l3);font-size:11px}
+.dprow{display:flex;overflow-x:auto;gap:8px;padding-bottom:4px;margin-bottom:16px;
+  scrollbar-width:none;
+  margin-left:calc(-1 * var(--ph));margin-right:calc(-1 * var(--ph));
+  padding-left:var(--ph);padding-right:var(--ph)}
+.dprow::-webkit-scrollbar{display:none}
+.prow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.fsec-hd{font-family:var(--serif);font-size:17px;font-weight:700;margin-bottom:10px}
+#fov-sheet .shn,#fov-sheet .fsec-hd{font-family:var(--sans)}
+.fsep{height:.5px;background:var(--sep);margin:16px 0}
+.pbtn{padding:8px 16px;border-radius:var(--rp);background:var(--fill2);
+  font-size:14px;font-weight:500;color:var(--l1);flex:none;
+  min-height:44px;display:flex;align-items:center;transition:background .14s,color .14s}
+.pbtn:active{opacity:.65}
+.pbtn.on{background:var(--navy);color:var(--white)}
+.pbtn.sp{color:var(--l1)}.pbtn.sp.on{background:var(--navy);color:#fff}
+
+/* Time picker — compact inline tap-target */
+.time-picker-row{display:flex;align-items:center;justify-content:space-between;
+  background:var(--fill);border-radius:12px;padding:2px 4px 2px 10px;
+  margin-bottom:18px;min-height:44px}
+.time-native{font-size:17px;font-weight:500;color:var(--navy);
+  background:none;border:none;font-family:var(--sans);
+  padding:8px 4px;color-scheme:light;flex:1}
+.time-native::-webkit-date-and-time-value{text-align:left}
+.time-clear-btn{font-size:13px;font-weight:600;color:var(--l2);background:none;padding:8px 10px;flex:none}
+.time-clear-btn:active{opacity:.55}
+
+/* Buttons — side by side, regular weight */
+.sacts-row{display:flex;gap:10px;margin-top:4px}
+#bca,#fca{flex:1;min-height:50px;border-radius:var(--r);background:var(--fill);
+  font-size:16px;font-weight:600;color:var(--l1);transition:opacity .14s}
+#ba,#fapply{flex:1;min-height:50px;border-radius:var(--r);background:var(--primary);
+  font-size:16px;font-weight:600;color:var(--white);transition:opacity .14s}
+#bca:active,#fca:active{opacity:.6}
+#ba:active,#fapply:active{opacity:.8}
+#br{display:block;width:100%;text-align:center;background:none;
+  color:var(--red);font-size:13px;font-weight:600;padding:4px 0 16px}
+#br:active{opacity:.55}
+#ov.time-only #ov-tag-label,#ov.time-only #dp{display:none}
+</style>
+</head>
+<body>
+<div id="shell">
+  <div id="safe-top"></div>
+  <header id="nav">
+    <div id="nav-title-wrap">
+      <span id="nav-title-main">SYLT</span><span id="nav-title-year">2026</span>
+    </div>
+    <div id="pw">
+      <div id="pc">0 / 34</div>
+      <div id="sync-dot"></div>
+      <svg id="prs" width="28" height="28" viewBox="0 0 24 24">
+        <circle id="prb" cx="12" cy="12" r="11"/>
+        <circle id="prr" cx="12" cy="12" r="11"/>
+      </svg>
+    </div>
+  </header>
+  <div id="sc">
+    <div class="view on" id="view-discover">
+      <div id="dhdr">
+        <div id="fr-outer">
+          <div id="sbar">
+            <button id="search-toggle" class="search-toggle-btn"><div id="ico-srch"></div></button>
+            <input id="sinput" type="search" placeholder="Suchen…" autocomplete="off" autocorrect="off" spellcheck="false">
+            <button id="sclr"><div id="ico-xc"></div></button>
+          </div>
+          <div class="fr-divider"></div>
+          <div id="frow"></div>
+        </div>
+        <div id="fbadges"></div>
+      </div>
+      <div id="pl"></div>
+    </div>
+    <div class="view" id="view-plan"><div id="plan"></div></div>
+    <div class="view" id="view-touren"><div id="touren"></div></div>
+  </div>
+  <nav id="tabs">
+    <button class="tab" data-v="touren"><div id="ico-route"></div>Touren</button>
+    <button class="tab on" data-v="discover"><div id="ico-map"></div>Orte</button>
+    <button class="tab" data-v="plan"><div id="ico-cal"></div>Planung</button>
+  </nav>
+</div>
+
+<div id="ov">
+  <div class="sheet" id="ov-sheet">
+    <div class="sdl"></div>
+    <div class="shn" id="shname"></div>
+
+    <div class="dprow" id="dp"></div>
+    <div class="ssec">Uhrzeit <span class="ssec-opt">optional</span></div>
+    <div class="time-picker-row">
+      <input type="time" id="time-input" class="time-native" step="1800" list="time-30min">
+      <datalist id="time-30min">
+        <option value="06:00"><option value="06:30"><option value="07:00"><option value="07:30">
+        <option value="08:00"><option value="08:30"><option value="09:00"><option value="09:30">
+        <option value="10:00"><option value="10:30"><option value="11:00"><option value="11:30">
+        <option value="12:00"><option value="12:30"><option value="13:00"><option value="13:30">
+        <option value="14:00"><option value="14:30"><option value="15:00"><option value="15:30">
+        <option value="16:00"><option value="16:30"><option value="17:00"><option value="17:30">
+        <option value="18:00"><option value="18:30"><option value="19:00"><option value="19:30">
+        <option value="20:00"><option value="20:30"><option value="21:00"><option value="21:30">
+        <option value="22:00"><option value="22:30"><option value="23:00">
+      </datalist>
+      <button id="time-clear" class="time-clear-btn">Löschen</button>
+    </div>
+    <button id="br">Aus Planung entfernen</button>
+    <div class="sacts-row">
+      <button id="bca">Abbrechen</button>
+      <button id="ba">Planen</button>
+    </div>
+  </div>
+</div>
+<div id="fov">
+  <div class="sheet" id="fov-sheet">
+    <div class="sdl"></div>
+    <div class="shn">Filter</div>
+    <div class="fsec-hd">Kategorie</div>
+    <div class="prow" id="fcat-row"></div>
+    <div class="fsep"></div>
+    <div class="fsec-hd">Lage</div>
+    <div class="prow" id="floc-row"></div>
+    <div class="fsep"></div>
+    <div class="sacts-row">
+      <button id="fca">Abbrechen</button>
+      <button id="fapply">Anzeigen</button>
+    </div>
+  </div>
+</div>
+<div id="tov">
+  <div class="sheet">
+    <div class="sdl"></div>
+    <div class="shn" id="tov-name">Tour einplanen</div>
+
+    <div class="dprow" id="tov-dp"></div>
+    <div class="sacts-row">
+      <button id="tov-cancel" style="flex:1;min-height:50px;border-radius:var(--r);background:var(--fill);font-size:16px;font-weight:600;color:var(--l1)">Abbrechen</button>
+      <button id="tov-apply" style="flex:1;min-height:50px;border-radius:var(--r);background:var(--primary);font-size:16px;font-weight:600;color:#fff">Einplanen</button>
+    </div>
+    </div>
+  </div>
+</div>
+<div id="iov">
+  <div class="sheet" id="iov-sheet">
+    <div class="sdl"></div>
+    <div class="shn" id="iov-name"></div>
+    <div id="iov-day-section" style="display:none">
+
+      <div class="dprow" id="iov-dp"></div>
+    </div>
+    <div id="iov-feel" class="c-feel"></div>
+    <div class="info-list" id="iov-info"></div>
+    <div id="iov-acts" class="c-det-acts"></div>
+  </div>
+</div>
+
+<script>
+/* ── FIREBASE REST SYNC (no external scripts) ── */
+const DB='https://sylt26-6dbc1-default-rtdb.europe-west1.firebasedatabase.app';
+let _syncCode='SYLT26',_evSource=null,_lastWrite=0,_writeTimer=null;
+
+function setSyncStatus(s){}
+
+function dbUrl(){return DB+'/reise/'+_syncCode+'/state.json';}
+
+function fbWrite(){
+  clearTimeout(_writeTimer);
+  _writeTimer=setTimeout(()=>{
+    _lastWrite=Date.now();
+    fetch(dbUrl(),{method:'PUT',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(S)})
+      .then(()=>setSyncStatus('ok'))
+      .catch(()=>setSyncStatus('err'));
+  },400);
+}
+
+function fbListen(){
+  if(_evSource)_evSource.close();
+  try{
+    _evSource=new EventSource(dbUrl());
+    _evSource.addEventListener('put',e=>{
+      try{
+        const d=JSON.parse(e.data);
+        if(Date.now()-_lastWrite<2000)return;
+        if(!d||!d.data)return;
+        S=d.data;
+        if(!S.visited)S.visited={};
+        if(!S.assigned)S.assigned={};
+        if(!S.order)S.order={};
+        renderAll();setSyncStatus('ok');
+      }catch(err){}
+    });
+    _evSource.onerror=()=>setSyncStatus('err');
+  }catch(e){setSyncStatus('err');}
+}
+
+function fbInit(code){
+  _syncCode=code;
+  fetch(dbUrl()).then(r=>r.json()).then(data=>{
+    if(data&&typeof data==='object'&&data.visited!==undefined){
+      S=data;
+      if(!S.visited)S.visited={};
+      if(!S.assigned)S.assigned={};
+      if(!S.order)S.order={};
+      if(!S.assigned.checkin)S.assigned.checkin={day:'sa',hour:'15',minute:'00'};
+      if(!S.assigned.checkout)S.assigned.checkout={day:'do',hour:'11',minute:'00'};
+      P.forEach(p=>{if(p.pd&&!S.assigned[p.id])S.assigned[p.id]={day:p.pd,hour:p.phour||'',minute:p.pminute||''};});
+    }else{
+      fetch(dbUrl(),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(S)});
+    }
+    renderAll();setSyncStatus('ok');
+    fbListen();
+  }).catch(()=>{setSyncStatus('err');fbListen();});
+}
+
+function showShell(){
+  const cs=document.getElementById('code-screen');if(cs)cs.style.display='none';
+  const sh=document.getElementById('shell');if(sh)sh.style.display='flex';
+}
+
+function initSync(){
+  loadS();renderAll();showShell();
+  const urlCode=new URLSearchParams(location.search).get('code')||'';
+  const savedCode=localStorage.getItem('sylt26_code')||'';
+  const code=(urlCode||savedCode||'SYLT26').toUpperCase().trim().replace(/[^A-Z0-9]/g,'')||'SYLT26';
+  localStorage.setItem('sylt26_code',code);
+  fbInit(code);
+}
+
+/* ── ICONS ── */
+const IC={
+  map:   `<path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"/>`,
+  cal:   `<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>`,
+  chk:   `<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>`,
+  pin:   `<path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>`,
+  phone: `<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>`,
+  xmk:   `<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>`,
+  srch:  `<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>`,
+  xcirc:`<path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>`,
+  plus:  `<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>`,
+  minus: `<path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14"/>`,
+  bars3: `<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/>`,
+  info:  `<path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/>`,
+  calt:  `<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6 2.25 2.25 4.5-4.5"/>`,
+  chev:  `<path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>`,
+  'chev-r':`<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>`,
+  ecal:  `<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-3.75h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008Z"/>`,
+  filt:  `<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"/>`,
+  clock: `<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>`,
+  heart: `<path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>`,
+  walk:  `<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM1.5 8.25a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm14.25 1.5A3 3 0 1 0 9 9.75a3 3 0 0 0 6.75 0ZM6 12.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm8.25 2.25a3 3 0 1 0-6 0 3 3 0 0 0 6 0Z"/>`,
+  arrowr:`<path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>`,
+  route: `<path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18m0-18 3.6 1.2c2.4.8 5 .8 7.2 0 2.4-.8 5-.8 7.2 0V15c-2.4-.8-4.8-.8-7.2 0-2.4.8-4.8.8-7.2 0"/>`,
+};
+const STAR_SOLID=`<path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z" clip-rule="evenodd"/>`;
+function starIcon(sz=11){return `<svg xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="currentColor">${STAR_SOLID}</svg>`;}
+function svg(k,sz=20,sw=1.8){return `<svg xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="${sw}">${IC[k]}</svg>`;}
+
+/* ── PLATFORM-AWARE MAPS ── */
+function openMaps(query){
+  const ua=navigator.userAgent;
+  const q=encodeURIComponent(query);
+  const isIOS=/iPad|iPhone|iPod/.test(ua)&&!window.MSStream;
+  const isIOSSafari=isIOS&&/Safari/.test(ua)&&!/CriOS|FxiOS|EdgiOS/.test(ua);
+  if(isIOSSafari)
+    window.open('https://maps.apple.com/?q='+q,'_blank');
+  else
+    window.open('https://www.google.com/maps/search/?api=1&query='+q,'_blank');
+}
+
+/* ── DATA ── */
+const TR_L={fuss:'Zu Fuß',rad:'Fahrrad',bus:'Bus',re:'RE'};
+const CAT_L={restaurant:'Restaurant',cafe:'Café & Snack',spaziergang:'Spaziergang',radtour:'Radtour',strand:'Strand',einkaufen:'Einkaufen'};
+const REGION={hoernum:'Südspitze',rantum:'Südl. Mitte',westerland:'Inselmitte',keitum:'Inselmitte',wenningstedt:'Nördl. Mitte',kampen:'Norden',morsum:'Nördl. Mitte'};
+const LOC_NAME={hoernum:'Hörnum',rantum:'Rantum',westerland:'Westerland',keitum:'Keitum',wenningstedt:'Wenningstedt',kampen:'Kampen',morsum:'Morsum'};
+function locLabel(loc){return (LOC_NAME[loc]||loc)+' ('+(REGION[loc]||'')+')';}
+const CATS=[{id:'restaurant',l:'Restaurant'},{id:'cafe',l:'Café & Snack'},{id:'spaziergang',l:'Spaziergang'},{id:'radtour',l:'Radtour'},{id:'strand',l:'Strand'},{id:'einkaufen',l:'Einkaufen'}];
+const LOCS=[{id:'hoernum',l:'Hörnum'},{id:'rantum',l:'Rantum'},{id:'westerland',l:'Westerland'},{id:'keitum',l:'Keitum'},{id:'wenningstedt',l:'Wenningstedt'},{id:'kampen',l:'Kampen'},{id:'morsum',l:'Morsum'}];
+const DAYS=[{id:'sa',s:'Sa 18.',l:'Samstag, 18. Juli',note:'',sp:false},{id:'so',s:'So 19.',l:'Sonntag, 19. Juli',note:'',sp:false},{id:'mo',s:'Mo 20.',l:'Montag, 20. Juli',note:'',sp:false},{id:'di',s:'Di 21.',l:'Dienstag, 21. Juli',note:'',sp:true},{id:'mi',s:'Mi 22.',l:'Mittwoch, 22. Juli',note:'',sp:false},{id:'do',s:'Do 23.',l:'Donnerstag, 23. Juli',note:'',sp:false}];
+
+
+const P=[
+  {id:'checkin',n:'Check-in',sub:'Hotel 54 Grad Nord · Hörnum',c:'spaziergang',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:false,fixed:true,dist:'',feel:'Zimmer ab 15:00 Uhr. Buchungsnr. A39942-SED-23269670.',t:[],m:'54 Grad Nord Hörnum'},
+  {id:'checkout',n:'Check-out',sub:'Abreise bis 11:00 Uhr',c:'spaziergang',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:false,fixed:true,dist:'',feel:'Check-out bis 11:00 Uhr. Zugverbindung: RE6 Westerland → Hamburg.',t:[],m:'54 Grad Nord Hörnum'},
+  {id:'odde',n:'Hörnum Odde',sub:'Sandspitze zwischen Nordsee und Wattenmeer',c:'spaziergang',loc:'hoernum',tr:'fuss',hl:true,rain:false,veg:false,dist:'10 min · Zu Fuß',
+   info:'Schmaler Sandstreifen an der Südspitze Sylts. Naturschutzgebiet. Zu Fuß in 10 Min vom Hotel erreichbar.',
+   feel:'Morgens um 9 Uhr gehört er euch allein. Links Nordsee, rechts Watt — das ist der Moment der bleibt.',
+   t:['kostenlos'],m:'Hörnum Odde Sylt'},
+  {id:'matthiesen',n:'Fisch Matthiesen',sub:'Bestes Fischbrötchen Hörnums — seit Jahrzehnten',c:'restaurant',loc:'hoernum',tr:'fuss',hl:true,rain:false,veg:false,dist:'4 min · Zu Fuß',hours:'Di–So 11–20 Uhr',
+   info:'Fischbrötchen-Bistro, 4 Min Fußweg. Nur Barzahlung. Krabbenbrötchen, Fischsuppe, Schollenfilet.',
+   feel:'Kein Hochglanz, nur frischer Fisch — und das ist genau richtig. Brötchen immer festhalten: die Möwen sind schneller.',
+   t:['Nur Bar!','Abends reservieren'],m:'Fisch Matthiesen Hörnum',p:'04651-881773'},
+  {id:'landfein',n:'Landfein',sub:'Romantisches Abendmahl in den Hörnumer Dünen',c:'restaurant',loc:'hoernum',tr:'fuss',hl:true,rain:false,veg:true,dist:'8 min · Zu Fuß',hours:'Tägl. ab 14 Uhr (Juli)',
+   info:'Restaurant in den Dünen. Ihr wählt den Hauptgang, Rest kommt als Überraschung. Draußen bei gutem Wetter reserviert.',
+   feel:'Das romantischste Dinner auf Sylt. Euer Jahrestag ♥ — Di 21.07 · 20:00, reserviert.',
+   t:['Di 21.07 · 20:00'],m:'Landfein Hörnum Sylt',p:'04651-2003204',pd:'di',phour:'20',pminute:'00'},
+  {id:'rantumbecken',n:'Rantumbecken',sub:'Traumhafter Radweg zwischen Dünen und Wattenmeer',c:'radtour',loc:'rantum',tr:'rad',hl:true,rain:false,veg:false,dist:'8 km · ~25 min Rad',
+   info:'Flacher, befestigter Radweg entlang des Brackwasserbeckens. 8 km vom Hotel. Keine Steigungen.',
+   feel:'Einer der schönsten Radwege Deutschlands — absolute Stille außer Vogelstimmen. Macht süchtig.',
+   t:['kostenlos','Ruhige Strecke'],m:'Rantumbecken Sylt'},
+  {id:'friesenhaus',n:'Friesenhäuser Keitum',sub:'Kapitänshäuser aus dem 18. Jh. im schönsten Dorf Sylts',c:'spaziergang',loc:'keitum',tr:'rad',hl:true,rain:true,veg:false,dist:'18 km · ~55 min Rad',
+   info:'Dorfspaziergang durch Keitum. Reetgedeckte Kapitänshäuser ab dem 17. Jh. 18 km vom Hotel, RE möglich.',
+   feel:'Das schönste Dorf auf ganz Sylt. Hier wohnt die echte Seele der Insel — kein Hochglanz, nur Geschichte.',
+   t:['kostenlos','RE möglich','Auch bei Regen'],m:'Keitum Sylt Friesenhäuser'},
+  {id:'sunhair',n:'Sünhair',sub:'Reetgedecktes Restaurant in Keitum — Fisch, Fleisch, Veggie',c:'restaurant',loc:'keitum',tr:'rad',hl:true,rain:true,veg:true,dist:'18 km · ~55 min Rad',hours:'Di–So ab 12 Uhr',
+   info:'Restaurant unter echtem Reet in Keitum. Fisch, Fleisch, Vegetarisch. ~€35–50/P.',
+   feel:'Das Lokal das wirklich für euch beide passt. Warme Atmosphäre, ehrliche Küche — einer der besten Abende.',
+   t:['Vegetarisch','Reservierung','~€35–50/P'],m:'Sünhair Keitum Sylt',p:'04651-9380780'},
+  {id:'kliffweg',n:'Kliffweg',sub:'Schönster Küstenweg Sylts — über den Dünen, Meerblick',c:'spaziergang',loc:'wenningstedt',tr:'rad',hl:true,rain:false,veg:false,dist:'22 km · ~65 min Rad',
+   info:'Fußweg oberhalb der Dünen von Wenningstedt bis zum Roten Kliff, 4 km. Rad abstellen, zu Fuß gehen.',
+   feel:'Um 20:30 Uhr laufen, wenn das Abendlicht alles gold macht — das ist der Weg der im Gedächtnis bleibt.',
+   t:['Sonnenuntergang','kostenlos','Must-See'],m:'Kliffweg Wenningstedt Sylt'},
+  {id:'fitschen',n:'Fitschen am Dorfteich',sub:'Strandkörbe am Dorfteich — gehobene Küche in Wenningstedt',c:'restaurant',loc:'wenningstedt',tr:'rad',hl:true,rain:true,veg:true,dist:'22 km · ~65 min Rad',hours:'Mi–So ab 17:30 Uhr',
+   info:'Restaurant in Wenningstedt. Strandkörbe im Garten mit Dorfteichblick. ~€40–50/P. Reservierung nötig.',
+   feel:'Einer der besten Abende auf Sylt. Die kochen auf Niveau und wissen, wie man Gäste willkommen heißt.',
+   t:['Vegetarisch','Reservierung nötig','~€40–50/P'],m:'Fitschen Dorfteich Wenningstedt Sylt'},
+  {id:'stronwai',n:'Strönwai Kampen',sub:'Teuerste Straße Deutschlands — Villen und Reetdachhäuser',c:'spaziergang',loc:'kampen',tr:'rad',hl:false,rain:false,veg:false,dist:'27 km · ~80 min Rad',
+   info:'Hauptstraße Kampens. Spaziergang, kein Eintritt. Reetdachhäuser ab dem 18. Jh. neben modernen Glasvillen.',
+   feel:'Wie Monopoly in echt — und ihr spaziert einfach durch. 100.000 € pro Quadratmeter, kostenlos ankucken.',
+   t:['kostenlos','Prächtige Häuser'],m:'Strönwai Kampen Sylt'},
+  {id:'rotes-kliff',n:'Rotes Kliff',sub:'30m Steilküste aus rotem Sandstein — spektakulär bei Sonnenuntergang',c:'spaziergang',loc:'kampen',tr:'rad',hl:true,rain:false,veg:false,dist:'27 km · ~80 min Rad',
+   info:'30m hohe Steilküste aus rotem Eisensandstein. Wanderweg direkt oberhalb. 27 km vom Hotel.',
+   feel:'Um 20:30 dort sein. Das Kliff glüht im Sonnenuntergang buchstäblich rot — das ist kein Klischee, das ist Physik.',
+   t:['Sonnenuntergang 20:30!','Must-See','kostenlos'],m:'Rotes Kliff Kampen Sylt'},
+  {id:'uwe-dune',n:'Uwe Düne',sub:'Höchster Punkt Sylts — Panorama auf beide Meere gleichzeitig',c:'spaziergang',loc:'kampen',tr:'rad',hl:true,rain:false,veg:false,dist:'27 km · ~80 min Rad',
+   info:'Höchster Punkt Sylts (53m). 5 Minuten Aufstieg vom Fuß der Düne. 27 km vom Hotel.',
+   feel:'Oben steht man und sieht beide Meere gleichzeitig. Links Nordsee, rechts Wattenmeer. Das Insel-Panorama auf einmal.',
+   t:['kostenlos','Panorama — beide Meere'],m:'Uwe Düne Kampen Sylt'},
+  {id:'kupferkanne',n:'Kupferkanne',sub:'Kult-Café in Kiefernlandschaft — Eigenröstung, Westterrasse',c:'cafe',loc:'kampen',tr:'rad',hl:true,rain:true,veg:true,dist:'28 km · ~85 min Rad',hours:'Tägl. 10–18 Uhr',
+   info:'Café in Kiefernlandschaft, Eigenröstung, täglich frischer Kuchen. Tägl. 10–18 Uhr. Keine Reservierung.',
+   feel:'Um 16 Uhr auf die Westterrasse. Das Abendlicht fällt dann goldfarben auf das Wattenmeer. Dazu hausgerösteter Kaffee.',
+   t:['16 Uhr Westterrasse!','Auch bei Regen'],m:'Kupferkanne Kampen Sylt',p:'04651-41010'},
+  {id:'ingwersen',n:'Bäckerei Ingwersen',sub:'Beste Handwerksbäckerei Sylts — RE direkt nach Morsum',c:'cafe',loc:'morsum',tr:'re',hl:true,rain:true,veg:true,dist:'RE · ~20 min',hours:'Mo–Sa ab 7:00 Uhr',
+   info:'Handwerksbäckerei in Morsum. Mo–Sa ab 7:00 Uhr. RE von Westerland nach Morsum, 2 Stationen.',
+   feel:'Sauerteigbrot mit echter Kruste, Brötchen die nach Brot schmecken. RE nach Morsum, frühstücken, zurück — perfekter Morgen.',
+   t:['Frühstück','Auch bei Regen','Beste Bäckerei Sylts'],m:'Bäckerei Ingwersen Morsum Sylt'},
+  {id:'strand-h',n:'Nordseestrand Hörnum',sub:'Breiter Sandstrand — 5 Minuten vom Hotel',c:'strand',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:false,dist:'5 min · Zu Fuß',
+   info:'Breiter weißer Sandstrand, 5 Min Fußweg. Strandkörbe ~€12/Tag. Strandgebühr ~€4/P täglich.',
+   feel:'Abends gegen 21:30 Uhr hier sitzen und die Sonne untergehen sehen. Einen Abend nur das.',
+   t:['Strandgebühr','Strandkorb','Sonnenuntergang'],m:'Nordseestrand Hörnum Sylt'},
+  {id:'watt',n:'Wattenmeer Ostseite',sub:'Stille Ostküste — UNESCO-Welterbe direkt ums Eck',c:'spaziergang',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:false,dist:'6 min · Zu Fuß',
+   info:'Ruhige Ostseite Hörnums. Bei Ebbe zieht das Wasser km-weit zurück. 6 Min Fußweg.',
+   feel:'Die stille Alternative. Morgens gehört es euch — komplett andere Stimmung als die belebte Westseite.',
+   t:['kostenlos'],m:'Wattenmeer Hörnum Sylt'},
+  {id:'wellness',n:'Wellness Schwesterhotel',sub:'Pool und Sauna — inklusive, 2 Minuten vom Hotel',c:'spaziergang',loc:'hoernum',tr:'fuss',hl:false,rain:true,veg:false,dist:'2 min · Zu Fuß',hours:'Slot reservieren: 04651-449170',
+   info:'Pool, Infrarot-, Dampf- und finnische Sauna. 80m entfernt. In der Buchung inklusive. Bademantel mitbringen.',
+   feel:'Einen halben Tag abschalten — das Bademantel-Feeling mitten auf Sylt. Gut als Regentag-Plan.',
+   t:['1× inklusive','Auch bei Regen'],m:'Hotel am Leuchtturm Hörnum Sylt',p:'04651-449170'},
+  {id:'straend',n:'Straend Konzept',sub:'Lockeres Dünen-Bistro — Bowls, Pasta, Fisch',c:'restaurant',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:true,dist:'10 min · Zu Fuß',
+   info:'Bistro in den Hörnumer Dünen. Bowls, Pinsa, Pasta, Fisch. Gute veggie Optionen für Anna.',
+   feel:'Locker, entspannt, kein Schickimicki. Perfekt wenn ihr einfach gut essen wollt ohne Reservierung.',
+   t:['Vegetarisch','Faire Preise'],m:'Straend Hörnum Sylt'},
+  {id:'baecket',n:'Bäcket Hörnum',sub:'Kultbäcker — frische Brötchen und legendäre Erdbeertörtchen',c:'cafe',loc:'hoernum',tr:'fuss',hl:false,rain:true,veg:true,dist:'4 min · Zu Fuß',hours:'Tägl. ab 7:30 Uhr',
+   info:'Bäckerei, 4 Min Fußweg. Tägl. ab 7:30 Uhr. Frische Brötchen, Kuchen, Erdbeertörtchen.',
+   feel:'Das beste tägliche Frühstücksritual auf Sylt. Die Erdbeertörtchen sind berühmt — nehmt zwei.',
+   t:['Morgens ideal'],m:'Bäcket Hörnum Sylt'},
+  {id:'lundt',n:'Bäckerei Lundt',sub:'Traditionsbäckerei in Westerland — seit über 100 Jahren',c:'cafe',loc:'westerland',tr:'rad',hl:false,rain:true,veg:true,dist:'Rad · ~35 min',hours:'Mo–Sa ab 6:30, So ab 7:30 Uhr',
+   info:'Traditionsbäckerei in Westerland. Mo–Sa ab 6:30, So ab 7:30 Uhr.',
+   feel:'Über 100 Jahre Backtradition auf der Insel. Perfekter Stopp bei einem Westerland-Besuch — das Friesenbrot ist ein Klassiker.',
+   t:['Traditionsbetrieb'],m:'Bäckerei Lundt Westerland Sylt'},
+  {id:'eismanufaktur',n:'Sylter Eismanufaktur',sub:'Hausgemachtes Eis — täglich frisch produziert',c:'cafe',loc:'westerland',tr:'rad',hl:false,rain:false,veg:true,dist:'Rad · ~35 min',hours:'Tägl. 11–18 Uhr (saisonal)',
+   info:'Eisdiele mit eigener Produktion. Tägl. ca. 11–18 Uhr, saisonal.',
+   feel:'Das beste Eis der Insel — täglich frisch in kleinen Chargen produziert. Nach der Strandpromenade genau das Richtige.',
+   t:['Sommer-Highlight'],m:'Sylter Eismanufaktur Westerland'},
+  {id:'kaphorn',n:'Strandrestaurant Kap-Horn',sub:'Strandlocation in den Dünen — Schnitzel, Fisch, Pasta',c:'restaurant',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:true,dist:'10 min · Zu Fuß',hours:'Mo, Mi–So 12–22 Uhr',
+   info:'Strandrestaurant in den Hörnumer Dünen. Mo, Mi–So 12–22 Uhr. Di geschlossen.',
+   feel:'Gute Alternative zu Landfein für einen entspannten Abend ohne Reservierung.',
+   t:['~€35–50/P'],m:'Strandrestaurant Kap-Horn Hörnum Sylt'},
+  {id:'sydhavn',n:'Sydhavn Crêpes',sub:'Crêpes-Stand am Hafen — Blick auf Amrum',c:'cafe',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:true,dist:'5 min · Zu Fuß',
+   info:'Kleiner Crêpes-Stand direkt am Hafen Hörnum. 5 Min Fußweg.',
+   feel:'Perfekter Nachmittags-Snack mit Blick aufs Wasser. Mehr braucht es nicht.',
+   t:['Günstig'],m:'Sydhavn Hörnum Sylt'},
+  {id:'edeka-h',n:'EDEKA Hörnum',sub:'Supermarkt — 5 Minuten vom Hotel',c:'einkaufen',loc:'hoernum',tr:'fuss',hl:false,rain:true,veg:false,dist:'5 min · Zu Fuß',hours:'Mo–Sa 08–22, So 10–20 Uhr',
+   info:'Vollsortimentssupermarkt, 5 Min Fußweg. Mo–Sa 08–22, So 10–20 Uhr.',
+   feel:'Für Selbstversorger-Frühstück und Vorräte. Günstiger als jedes Sylt-Restaurant.',
+   t:[],m:'EDEKA Hörnum Sylt'},
+  {id:'kaffeeroest',n:'Kaffeerösterei Sylt',sub:'Eigenröstung direkt am Rantumer Hafen',c:'cafe',loc:'rantum',tr:'rad',hl:false,rain:false,veg:true,dist:'9 km · ~28 min Rad',hours:'Tägl. 9–18 Uhr',
+   info:'Café mit Eigenröstung am Rantumer Hafen. 9 km vom Hotel. Tägl. 9–18 Uhr.',
+   feel:'Schönste Radpause auf dem Weg nach Keitum. Kaffee der nach was schmeckt.',
+   t:['Eigenröstung','Am Hafen'],m:'Kaffeerösterei Rantum Sylt'},
+  {id:'sansibar',n:'Sansibar',sub:'Kultige Strandbar in Rantum — Currywurst und Fisch',c:'cafe',loc:'rantum',tr:'rad',hl:false,rain:false,veg:false,dist:'9 km · ~28 min Rad',hours:'Tägl. 11–23 Uhr',
+   info:'Strandbar-Restaurant in Rantum, 9 km. Tägl. 11–23 Uhr. Currywurst €12, Fisch ab €16.',
+   feel:'Kult-Status verdient, aber abends Rummel und Promi-Getue. Mittags ist es angenehmer und authentischer.',
+   t:['Mittags ideal'],m:'Sansibar Rantum Sylt'},
+  {id:'promenade',n:'Strandpromenade Westerland',sub:'Hauptpromenade Sylts — einmal durchradeln',c:'spaziergang',loc:'westerland',tr:'rad',hl:false,rain:false,veg:false,dist:'15 km · ~45 min Rad',
+   info:'Hauptpromenade Sylts, 15 km vom Hotel. GOSCH, Souvenirs, Strandabschnitt.',
+   feel:'Einmal durchradeln gehört dazu — aber nicht länger als nötig. Dann weiter nach Kampen.',
+   t:['kostenlos'],m:'Strandpromenade Westerland Sylt'},
+  {id:'gosch',n:'GOSCH Fischbrötchen',sub:'Bekannteste Fischbude Sylts — ab €6 an der Promenade',c:'cafe',loc:'westerland',tr:'rad',hl:false,rain:false,veg:false,dist:'15 km · ~45 min Rad',
+   info:'Fischbrötchen-Kette an der Westerland-Promenade. 15 km vom Hotel. Matjes, Lachs, Krabben ab €6.',
+   feel:'Günstig, lecker, ikonisch. Für die Mittagspause auf der Kampen-Tour unvermeidlich.',
+   t:['Günstig'],m:'GOSCH Westerland Sylt'},
+  {id:'edeka-w',n:'EDEKA / REWE Westerland',sub:'Supermarkt in Westerland — für Nachkäufe',c:'einkaufen',loc:'westerland',tr:'rad',hl:false,rain:true,veg:false,dist:'15 km · ~45 min Rad',hours:'Mo–Sa 08–22, So 10–20',
+   info:'Supermarkt in Westerland, 15 km. Mo–Sa 08–22, So 10–20 Uhr.',
+   feel:'Für Nachkäufe auf dem Weg nach Kampen.',
+   t:[],m:'EDEKA Westerland Sylt'},
+  {id:'keitum-k',n:'Keitumer Küste',sub:'Wattenmeerblick auf der ruhigen Ostseite Keitums',c:'spaziergang',loc:'keitum',tr:'rad',hl:false,rain:false,veg:false,dist:'18 km · ~55 min Rad',
+   info:'Spazierweg an der Ostküste Keitums. Wattenmeerblick Richtung Festland. 18 km.',
+   feel:'Die ruhige Seite Sylts. Komplett anders als die Westküste — stiller, weiter, nachdenklicher.',
+   t:['kostenlos'],m:'Keitumer Küste Sylt'},
+  {id:'teekontor',n:'Teekontor + Teestube Keitum',sub:'Bestes Sanddorn-Mitbringsel und Tee-Pause in Keitum',c:'cafe',loc:'keitum',tr:'rad',hl:false,rain:true,veg:true,dist:'18 km · ~55 min Rad',hours:'Mo–Sa 10–18 Uhr',
+   info:'Teehandlung und Café in Keitum. Mo–Sa 10–18 Uhr. Hochwertige Tees, Sanddorn-Produkte.',
+   feel:'Sanddorn-Aufstrich und -Schokolade sind das beste Sylt-Mitbringsel. Teestube für eine kurze Pause.',
+   t:[],m:'Teekontor Keitum Sylt'},
+  {id:'braderuper',n:'Braderuper Heide',sub:'Weite Heidelandschaft zwischen Wenningstedt und Kampen',c:'spaziergang',loc:'wenningstedt',tr:'rad',hl:false,rain:false,veg:false,dist:'22 km · ~65 min Rad',
+   info:'Naturschutzgebiet zwischen Wenningstedt und Kampen. Juli: grün, August: lila. Radweg führt durch.',
+   feel:'Auf dem Weg nach Kampen kurz innehalten. Sylt kann auch still und weit sein.',
+   t:['kostenlos','Juli: Grün'],m:'Braderuper Heide Sylt'},
+  {id:'klapprad',n:'Café Klapprad',sub:'Radfahrer-Café auf dem Campingplatz Wenningstedt',c:'cafe',loc:'wenningstedt',tr:'rad',hl:false,rain:true,veg:true,dist:'22 km · ~65 min Rad',
+   info:'Kleines Café auf dem Campingplatz Wenningstedt. Hausgemachter Kuchen. Veggie-freundlich.',
+   feel:'Kein Ketten-Gefühl, kein Trubel. Perfekte Pause auf dem Weg nach Kampen.',
+   t:[],m:'Café Klapprad Wenningstedt Sylt'},
+  {id:'vogelkoje',n:'Vogelkoje',sub:'Ältester Wald Sylts — Entenfanganlage von 1767',c:'spaziergang',loc:'kampen',tr:'rad',hl:false,rain:false,veg:false,dist:'29 km · ~90 min Rad',
+   info:'Naturschutzgebiet mit ältestem Wald Sylts und Entenfanganlage von 1767. Naturpfad. Kostenlos.',
+   feel:'Der geheimste Ort auf Sylt. Erlen, Farne, keine Touristen. 20 Minuten Abstecher der im Gedächtnis bleibt.',
+   t:['kostenlos','Geheimtipp','20 min Abstecher'],m:'Vogelkoje Kampen Sylt'},
+  {id:'dorfkrug',n:'Dorfkrug Kampen',sub:'Restaurant im Herz Kampens — Option für den Kampen-Abend',c:'restaurant',loc:'kampen',tr:'rad',hl:false,rain:true,veg:true,dist:'27 km · ~80 min Rad',hours:'Di–So ab 12 Uhr',
+   info:'Restaurant in Kampens Ortsmitte. Di–So ab 12 Uhr.',
+   feel:'Wenn ihr den Kampen-Tag genießt und keinen Hunger auf die Rückfahrt habt — hier essen, dann Bus.',
+   t:['Falls Abend in Kampen','Auch bei Regen'],m:'Dorfkrug Kampen Sylt'},
+  {id:'morsum-k',n:'Morsum Kliff',sub:'Fossilien-Steilküste auf der stillen Ostseite — RE direkt',c:'spaziergang',loc:'morsum',tr:'re',hl:false,rain:false,veg:false,dist:'RE · ~20 min',
+   info:'Geologische Formation auf der Ostseite Sylts. Fossilien im Fels. RE direkt nach Morsum. Kostenlos.',
+   feel:'Komplett andere Energie als die Westküste — still, unberührt, fast vergessen. Perfekt mit Ingwersen-Frühstück.',
+   t:['kostenlos','RE direkt!','Fossilien'],m:'Morsum Kliff Sylt'},
+  {id:'leuchtturm',n:'Leuchtturm Hörnum',sub:'Schwarz-weißes Wahrzeichen — 3 Minuten vom Hotel',c:'spaziergang',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:false,dist:'3 min · Zu Fuß',
+   info:'Schwarz-weißer Leuchtturm, 3 Min Fußweg. Fotomotiv auf dem Weg zur Odde.',
+   feel:'In der Abendsonne besonders schön. Kurzer Abstecher der sich immer lohnt.',
+   t:['kostenlos'],m:'Leuchtturm Hörnum Sylt'},
+];
+const TOTAL=P.length;
+
+/* ── STATE ── */
+let S={visited:{},assigned:{},order:{}};
+function loadS(){
+  try{S=JSON.parse(localStorage.getItem('sylt26v9')||'{}');if(!S.visited)S.visited={};if(!S.assigned)S.assigned={};if(!S.order)S.order={};}catch(e){}
+  P.forEach(p=>{if(p.pd&&!S.assigned[p.id])S.assigned[p.id]={day:p.pd,hour:p.phour||'',minute:p.pminute||''};});
+  // Fixed items always assigned
+  if(!S.assigned['checkin'])S.assigned['checkin']={day:'sa',hour:'15',minute:'00'};
+  if(!S.assigned['checkout'])S.assigned['checkout']={day:'do',hour:'11',minute:'00'};
+}
+function saveS(){try{localStorage.setItem('sylt26v9',JSON.stringify(S));}catch(e){}fbWrite();}
+
+function getDayOrder(dayId){
+  const assignedIds=P.filter(p=>S.assigned[p.id]?.day===dayId).map(p=>p.id);
+  // If no manual order stored, or has new items, use chronological sort
+  let order=(S.order[dayId]||[]).filter(id=>assignedIds.includes(id));
+  const missing=assignedIds.filter(id=>!order.includes(id));
+  if(missing.length){
+    // Sort all (order + missing) chronologically
+    const all=[...order,...missing];
+    all.sort((a,b)=>{
+      const ta=S.assigned[a],tb=S.assigned[b];
+      const va=ta?.hour?ta.hour+(ta.minute||'00'):'99';
+      const vb=tb?.hour?tb.hour+(tb.minute||'00'):'99';
+      return va.localeCompare(vb);
+    });
+    order=all;
+  }
+  S.order[dayId]=order;
+  return order.map(id=>P.find(p=>p.id===id)).filter(Boolean);
+}
+
+let aCat=null,aLoc=null,aSpecial=null,qStr='',tmpCat=null,tmpLoc=null;
+let openCardWrap=null;
+let curV='discover',mid=null,sDay=null;
+
+/* ── HELPERS ── */
+function ts(t){const d=new Date(t),dn=['So','Mo','Di','Mi','Do','Fr','Sa'][d.getDay()];return dn+' '+d.getDate()+'. · '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
+function tagCls(t){if(/Reservier/.test(t))return'tag-r';if(/kostenlos/.test(t))return'tag-g';if(/ideal|Uhr/.test(t))return'tag-o';if(/€/.test(t))return'';return'';}
+function el(t,c,h){const e=document.createElement(t);if(c)e.className=c;if(h!==undefined)e.innerHTML=h;return e;}
+function matchQ(p){if(!qStr)return true;const s=(p.n+' '+p.sub+' '+p.info+' '+(p.t||[]).join(' ')).toLowerCase();return qStr.toLowerCase().split(' ').every(w=>s.includes(w));}
+
+/* ── STATIC ICONS ── */
+document.getElementById('ico-map').innerHTML=svg('map',22,1.8);
+document.getElementById('ico-cal').innerHTML=svg('cal',22,1.8);
+document.getElementById('ico-route').innerHTML=svg('route',22,1.8);
+document.getElementById('ico-srch').innerHTML=svg('srch',19,2);
+document.getElementById('ico-xc').innerHTML=svg('xcirc',16,2);
+
+/* ── PROGRESS RING ── */
+const Circ=2*Math.PI*11;
+function updateBadge(){
+  // Count real places that are planned (exclude fixed checkin/checkout)
+  const realP=P.filter(p=>!p.fixed);
+  const n=realP.filter(p=>S.assigned[p.id]).length;
+  const total=realP.length;
+  document.getElementById('pc').textContent=n+' / '+total;
+  document.getElementById('prr').style.strokeDashoffset=Circ*(1-n/total);
+}
+
+const sc=document.getElementById('sc');
+const navEl=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  navEl.classList.toggle('collapsed',window.scrollY>22);
+},{passive:true});
+
+
+/* ── SEARCH (inline in filter row) ── */
+const sinput=document.getElementById('sinput');
+const sclr=document.getElementById('sclr');
+const searchToggle=document.getElementById('search-toggle');
+const sbar=document.getElementById('sbar');
+const frow=document.getElementById('frow');
+sinput.addEventListener('input',()=>{qStr=sinput.value;sclr.classList.toggle('vis',!!qStr);renderDiscover();});
+sclr.onclick=()=>{sinput.value='';qStr='';sclr.classList.remove('vis');sinput.focus();renderDiscover();};
+
+function openSearch(){
+  sbar.classList.add('open');
+  frow.classList.add('hidden');
+  sinput.focus();
+}
+function closeSearch(){
+  // Full close: clears the query and results
+  if(!sbar.classList.contains('open'))return;
+  sbar.classList.remove('open');
+  frow.classList.remove('hidden');
+  sinput.value='';qStr='';sclr.classList.remove('vis');sinput.blur();
+  renderDiscover();
+}
+function collapseSearch(){
+  // Soft collapse: hides the input but KEEPS the active query/results
+  if(!sbar.classList.contains('open'))return;
+  if(qStr){
+    // Query active — just blur keyboard, keep bar open so user sees context
+    sinput.blur();
+    return;
+  }
+  // No query — full close
+  closeSearch();
+}
+searchToggle.onclick=()=>{
+  if(sbar.classList.contains('open'))closeSearch();
+  else openSearch();
+};
+// On scroll: soft collapse (keeps search results visible)
+window.addEventListener('scroll',()=>collapseSearch(),{passive:true});
+// Tap outside: soft collapse too
+document.addEventListener('pointerdown',e=>{
+  if(!sbar.classList.contains('open'))return;
+  if(sbar.contains(e.target))return;
+  collapseSearch();
+});
+
+/* ── FILTER ROW ── */
+function makeFilterChip(label,isOn,extraClass,onToggle){
+  const b=el('button','chip'+(extraClass?' '+extraClass:'')+(isOn?' on':''));
+  const lbl=el('span','',label);
+  b.appendChild(lbl);
+  if(isOn){
+    const x=el('span','chip-x','×');
+    x.onclick=e=>{e.stopPropagation();onToggle(true);};
+    b.appendChild(x);
+  }
+  b.onclick=()=>onToggle(false);
+  return b;
+}
+
+function buildFilterRow(){
+  const fr=document.getElementById('frow');fr.innerHTML='';
+  [{id:'restaurant',l:'Restaurant'},{id:'spaziergang',l:'Spaziergang'},{id:'radtour',l:'Radtour'},{id:'cafe',l:'Café'},{id:'strand',l:'Strand'}].forEach(c=>{
+    const isOn=aCat===c.id;
+    fr.appendChild(makeFilterChip(c.l,isOn,'',forceClear=>{
+      aCat=(isOn||forceClear)?null:c.id;aSpecial=null;renderDiscover();
+    }));
+  });
+  fr.appendChild(makeFilterChip('Regen',aSpecial==='rain','chip-rain',forceClear=>{
+    aSpecial=(aSpecial==='rain'||forceClear)?null:'rain';aCat=null;aLoc=null;renderDiscover();
+  }));
+  fr.appendChild(makeFilterChip('Highlights',aSpecial==='hl','chip-hl',forceClear=>{
+    aSpecial=(aSpecial==='hl'||forceClear)?null:'hl';aCat=null;aLoc=null;renderDiscover();
+  }));
+  const fb=el('button','');fb.id='filterbtn';fb.innerHTML=svg('filt',13,2)+' Filter';
+  if(aLoc)fb.classList.add('active');fb.onclick=openFilterSheet;fr.appendChild(fb);
+  const badges=document.getElementById('fbadges');badges.innerHTML='';let vis=false;
+  if(aLoc){vis=true;const b=el('span','fbadge',LOCS.find(l=>l.id===aLoc)?.l||aLoc);const x=el('button','','×');x.onclick=()=>{aLoc=null;renderDiscover();};b.appendChild(x);badges.appendChild(b);}
+  badges.classList.toggle('vis',vis);
+}
+
+/* ── MAKE CARD ── */
+function priceLabel(p){
+  const eu=(p.t||[]).find(t=>/€/.test(t));
+  if(eu)return eu;
+  if((p.t||[]).includes('kostenlos'))return'Kostenlos';
+  if((p.t||[]).includes('Günstig'))return'Günstig';
+  if((p.t||[]).includes('Strandgebühr'))return'Strandgebühr';
+  return null;
+}
+function cleanDist(p){
+  let s=p.dist||'';
+  s=s.replace(/\s*·\s*Zu Fuß$/,'').replace(/\s*Rad$/,'').replace(/^RE\s*·\s*/,'');
+  return s.trim();
+}
+const MODE_LABEL={fuss:'Zu Fuß',rad:'Fahrrad',bus:'Bus',re:'RE'};
+function distValue(p){
+  const s=p.dist||'';
+  const kmMatch=s.match(/(\d+)\s*km/);
+  const minMatch=s.match(/(~?)(\d+)\s*min/i);
+  const parts=[];
+  if(kmMatch)parts.push(kmMatch[1]+' km');
+  if(minMatch)parts.push(minMatch[1]+minMatch[2]+' Min.');
+  if(!parts.length)parts.push(cleanDist(p));
+  return parts.join('<span class="pipe-sep"> | </span>')+' ('+MODE_LABEL[p.tr]+')';
+}
+
+function makeCard(p,hideAsgnBadge=false){
+  const isDone=!!S.visited[p.id],asgn=S.assigned[p.id];
+  const wrap=el('div','cw');
+
+  const card=el('div','card'+(isDone?' done':''));card.dataset.cat=p.c;
+
+  /* COMPACT */
+  const cc=el('div','cc');
+  const left=el('div','cc-left');
+
+  // Meta: cat chip + location(region) + highlight star
+  const meta=el('div','cc-meta');
+  meta.appendChild(el('span','cat-chip ch-'+p.c,CAT_L[p.c]));
+  meta.appendChild(el('span','loc-label',locLabel(p.loc)));
+  if(p.hl){const sp=el('span','hl-pill');sp.innerHTML=starIcon(10);meta.appendChild(sp);}
+  if(asgn&&!hideAsgnBadge){const d=DAYS.find(d=>d.id===asgn.day);const tm=asgn.hour?(asgn.hour+':'+(asgn.minute||'00')):'';meta.appendChild(el('span','asgn-badge',(d?.s||'')+(tm?' · '+tm:'')));}
+  left.appendChild(meta);
+
+  left.appendChild(el('div','cc-name',p.n));
+
+  // Subtitle — max 2 lines, no chevron
+  left.appendChild(el('div','cc-sub',p.sub));
+
+  // Right: single + button
+  const right=el('div','cc-right');
+  const pb=el('button','act-plus'+(asgn?' on':''));
+  pb.innerHTML=svg('plus',19,2);
+  pb.onclick=e=>{e.stopPropagation();openSheet(p.id);};
+  right.appendChild(pb);
+
+  cc.append(left,right);
+  cc.addEventListener('click',()=>{
+    const isOpen=wrap.classList.contains('open');
+    if(openCardWrap&&openCardWrap!==wrap)openCardWrap.classList.remove('open');
+    wrap.classList.toggle('open',!isOpen);
+    openCardWrap=!isOpen?wrap:null;
+  });
+  card.appendChild(cc);
+
+  /* DETAIL */
+  const cdiv=el('div','cd');
+  const cinner=el('div','cd-inner');
+
+  // Single remaining detail text — warm, personal
+  cinner.appendChild(el('div','c-feel',p.feel));
+
+  // Apple Settings-style info list
+  const reservNeeded=(p.t||[]).some(t=>/reservier/i.test(t));
+  const il=el('div','info-list');
+  if(p.hours){
+    const row=el('div','info-row');
+    row.appendChild(el('span','info-label','Öffnungszeiten'));
+    row.appendChild(el('span','info-value',p.hours+(reservNeeded?'<span class="pipe-sep"> | </span>Reservieren!':'')));
+    il.appendChild(row);
+  }
+  const price=priceLabel(p);
+  if(price){
+    const row=el('div','info-row');
+    row.appendChild(el('span','info-label','Preis'));
+    row.appendChild(el('span','info-value',price));
+    il.appendChild(row);
+  }
+  if(p.dist){
+    const row=el('div','info-row');
+    row.appendChild(el('span','info-label','Vom Hotel'));
+    row.appendChild(el('span','info-value',distValue(p)));
+    il.appendChild(row);
+  }
+  cinner.appendChild(il);
+
+  if(isDone)cinner.appendChild(el('div','c-ts','Erledigt '+ts(S.visited[p.id])));
+
+  // Detail actions
+  const da=el('div','c-det-acts');
+  if(p.m){
+    const b=el('button','det-act det-maps');
+    b.innerHTML=svg('pin',14,2)+' Maps öffnen';
+    b.onclick=()=>openMaps(p.m);da.appendChild(b);
+  }
+  if(p.p){
+    const b=el('button','det-act det-phone');
+    b.innerHTML=svg('phone',13,2)+' '+p.p;
+    b.onclick=()=>window.open('tel:+49'+p.p.replace(/\D/g,'').slice(1));da.appendChild(b);
+  }
+  if(da.children.length)cinner.appendChild(da);
+
+  cdiv.appendChild(cinner);card.appendChild(cdiv);
+  wrap.appendChild(card);
+  return wrap;
+}
+
+/* ── CHECK ── */
+function animCheck(id,btn){
+  btn.style.transition='transform .1s ease';btn.style.transform='scale(1.4)';
+  setTimeout(()=>btn.style.transform='scale(1)',100);
+  setTimeout(()=>toggleCheck(id),80);
+}
+function toggleCheck(id){S.visited[id]=S.visited[id]?null:Date.now();if(!S.visited[id])delete S.visited[id];saveS();renderAll();}
+
+/* ── RENDER DISCOVER ── */
+function renderDiscover(){
+  openCardWrap=null;
+  buildFilterRow();
+  const base=P.filter(p=>{
+    if(p.fixed)return false;  // checkin/checkout never in Discover
+    if(aCat&&p.c!==aCat)return false;
+    if(aLoc&&p.loc!==aLoc)return false;
+    if(aSpecial==='rain'&&!p.rain)return false;
+    if(aSpecial==='hl'&&(!p.hl||S.visited[p.id]))return false;
+    if(!matchQ(p))return false;
+    return true;
+  });
+  const free=base.filter(p=>!S.assigned[p.id]);
+  const planned=base.filter(p=>!!S.assigned[p.id]);
+  const list=document.getElementById('pl');list.innerHTML='';
+
+  // Hotel section — flat on background, expandable on click
+  const hs=el('div','hotel-section');
+  const hstop=el('div','hotel-section-header');
+  const htxt=el('div','');
+  htxt.appendChild(el('div','hotel-section-name','54 Grad Nord Apartments'));
+  htxt.appendChild(el('div','hotel-section-addr','Strandstraße 2 · 25997 Hörnum'));
+  hstop.appendChild(htxt);
+  const hchev=el('span','hotel-section-chev');
+  hchev.innerHTML=svg('chev-r',18,2);
+  hstop.appendChild(hchev);
+  hstop.onclick=()=>hs.classList.toggle('open');
+  hs.appendChild(hstop);
+  const hsa=el('div','hotel-section-acts');
+  const hmaps=el('button','det-act det-maps');
+  hmaps.innerHTML=svg('pin',14,2)+' Maps öffnen';
+  hmaps.onclick=e=>{e.stopPropagation();openMaps('54 Grad Nord Apartments Hörnum Sylt');};
+  hsa.appendChild(hmaps);
+  const hph=el('button','det-act det-phone');
+  hph.innerHTML=svg('phone',13,2)+' 04651-449170';
+  hph.onclick=e=>{e.stopPropagation();window.open('tel:+494651449170');};
+  hsa.appendChild(hph);
+  hs.appendChild(hsa);
+  hs.appendChild(el('div','hotel-section-sep'));
+  list.appendChild(hs);
+
+  if(!free.length&&!planned.length){
+    const es=el('div','empty-state');
+    es.innerHTML=svg('srch',40,1.5);
+    es.appendChild(el('div','es-t',aSpecial==='hl'?'Alle Highlights erledigt!':'Nichts gefunden'));
+    es.appendChild(el('div','es-s',aSpecial==='hl'?'Alle Top Tipps habt ihr abgehakt. Respekt!':'Andere Suchbegriffe oder Filter zurücksetzen.'));
+    list.appendChild(es);return;
+  }
+  free.forEach(p=>list.appendChild(makeCard(p)));
+  if(planned.length){
+    list.appendChild(el('div','plan-divider'));
+    planned.forEach(p=>{
+      const cw=makeCard(p,true);
+      cw.querySelector('.card').style.opacity='.62';
+      // Replace + with checkmark icon on planned cards
+      const pb=cw.querySelector('.act-plus');
+      if(pb){pb.innerHTML=svg('chk',17,2.5);pb.style.color='var(--grn)';}
+      list.appendChild(cw);
+    });
+  }
+}
+
+/* ── RENDER PLAN ── */
+function renderPlan(){
+  const list=document.getElementById('plan');list.innerHTML='';
+  DAYS.forEach((day,dayIdx)=>{
+    const g=el('div','dg');
+    const dt=el('div','dt',day.l);
+    if(day.sp){const hrt=el('span','dt-heart','♥');dt.appendChild(hrt);}
+    if(day.note)dt.appendChild(el('span','dm',' '+day.note));
+    g.appendChild(dt);
+    const items=getDayOrder(day.id);
+    const slots=el('div','dslots');
+    slots.dataset.day=day.id;
+    if(!items.length){
+      const ec=el('div','plan-empty-card');
+      ec.textContent='Noch nichts';
+      slots.appendChild(ec);
+    } else {
+      items.forEach((p,i)=>{
+        const wrap=makePlanRow(p);
+        if(i===0)wrap.querySelector('.pr').style.borderTop='none';
+        slots.appendChild(wrap);
+        attachPlanSwipe(wrap,p);
+        attachDragHandle(wrap,slots,day.id);
+      });
+    }
+    g.appendChild(slots);list.appendChild(g);
+  });
+}
+
+function applyTemplate(dayId,items){
+  items.forEach(({id})=>{
+    if(!S.assigned[id])S.assigned[id]={day:dayId,hour:'',minute:''};
+  });
+  saveS();renderAll();
+}
+
+/* ── TOUREN TAB: location-based combos ── */
+const TOUREN=[
+  {id:'so',name:'Hörnum erkunden',ico:'🏠',region:'Hörnum',tr:'fuss',duration:'~2 Std.',
+   sub:'Alles direkt vor der Haustür — perfekt für den ersten Tag, alles zu Fuß erreichbar.',
+   items:[{id:'odde',t:'morgen'},{id:'matthiesen',t:'mittag'},{id:'strand-h',t:'nachmittag'},{id:'straend',t:'abend'}]},
+  {id:'rantum-keitum',name:'Rantum & Keitum Radtour',ico:'🚲',region:'Rantum → Keitum',tr:'rad',duration:'~5 Std.',
+   sub:'Diese Route liegt auf einer Linie — das Rantumbecken führt direkt weiter nach Keitum, ohne Umweg.',
+   items:[{id:'rantumbecken',t:'vormittag'},{id:'kaffeeroest',t:'mittag'},{id:'friesenhaus',t:'nachmittag'},{id:'sunhair',t:'abend'}]},
+  {id:'morsum',name:'Morsum & Wellness',ico:'🚂',region:'Morsum',tr:'re',duration:'~3 Std.',
+   sub:'Beide liegen an der RE-Linie — ein entspannter Vormittag ohne Rad, dann Wellness am Nachmittag.',
+   items:[{id:'ingwersen',t:'morgen'},{id:'morsum-k',t:'vormittag'},{id:'wellness',t:'nachmittag'}]},
+  {id:'kampen-gross',name:'Großer Kampen-Tag',ico:'⛰️',region:'Wenningstedt → Kampen',tr:'rad',duration:'~6 Std.',
+   sub:'Alle Kampen-Highlights liegen in Gehweite zueinander — Kliffweg führt direkt zum Roten Kliff, Uwe Düne und Kupferkanne sind nur Minuten entfernt.',
+   items:[{id:'kliffweg',t:'vormittag'},{id:'uwe-dune',t:'mittag'},{id:'kupferkanne',t:'nachmittag'},{id:'rotes-kliff',t:'nachmittag'}]},
+  {id:'wenningstedt',name:'Wenningstedt & Heide',ico:'🌿',region:'Wenningstedt',tr:'rad',duration:'~4 Std.',
+   sub:'Braderuper Heide liegt direkt auf dem Weg zum Kliffweg — beides lässt sich an einem Nachmittag verbinden.',
+   items:[{id:'braderuper',t:'vormittag'},{id:'kliffweg',t:'nachmittag'},{id:'fitschen',t:'abend'}]},
+  {id:'kampen-abschluss',name:'Kampen-Abschluss',ico:'🏔️',region:'Kampen',tr:'rad',duration:'~5 Std.',
+   sub:'Strönwai, Vogelkoje und Kupferkanne liegen alle im Ortskern von Kampen — kompakt zu Fuß erkundbar.',
+   items:[{id:'stronwai',t:'vormittag'},{id:'vogelkoje',t:'mittag'},{id:'kupferkanne',t:'nachmittag'},{id:'dorfkrug',t:'abend'}]},
+];
+
+function renderTouren(){
+  const list=document.getElementById('touren');list.innerHTML='';
+  TOUREN.forEach(tour=>{
+    const card=el('div','tour-card');
+    // Transport pill above title
+    card.appendChild(el('span','tr-b tr-'+tour.tr,TR_L[tour.tr]));
+    // Title
+    card.appendChild(el('div','tour-name',tour.name));
+    // Subline: region | duration
+    const sl=el('div','tour-subline');
+    sl.innerHTML=tour.region+'<span class="tour-pipe"> | </span>'+tour.duration;
+    card.appendChild(sl);
+    // Description
+    card.appendChild(el('div','tour-sub',tour.sub));
+
+    // Vertical timeline
+    const tl=el('div','tour-timeline');
+    tour.items.forEach(({id},i)=>{
+      const place=P.find(p=>p.id===id);
+      if(!place)return;
+      const row=el('div','tl-item');
+      // Left: top-line → dot → bottom-line for equal spacing
+      const left=el('div','tl-left');
+      left.appendChild(el('div','tl-line-top'));
+      left.appendChild(el('div','tl-dot'));
+      left.appendChild(el('div','tl-line-bottom'));
+      row.appendChild(left);
+      // Right wrapper (divider starts here)
+      const right=el('div','tl-right');
+      const cnt=el('div','tl-name');
+      cnt.appendChild(document.createTextNode(place.n+' '));
+      cnt.appendChild(el('span','tl-cat','('+CAT_L[place.c]+')'));
+      right.appendChild(cnt);
+      right.style.cursor='pointer';
+      right.onclick=e=>{if(!e.target.closest('.tl-info-btn'))openInfoSheet(place.id);};
+      const ib=el('button','tl-info-btn');ib.innerHTML=svg('info',16,1.8);
+      ib.onclick=()=>openInfoSheet(place.id);
+      right.appendChild(ib);
+      row.appendChild(right);
+      tl.appendChild(row);
+    });
+    card.appendChild(tl);
+
+    const btn=el('button','tour-btn','Tour einplanen');
+    btn.onclick=()=>openTourSheet(tour);
+    card.appendChild(btn);
+    list.appendChild(card);
+  });
+}
+
+const tov=document.getElementById('tov');
+let tourMid=null,tourSelDay=null;
+function openTourSheet(tour){
+  tourMid=tour;tourSelDay=null;
+  document.getElementById('tov-name').textContent=tour.name;
+  const dp=document.getElementById('tov-dp');dp.innerHTML='';
+  DAYS.forEach(d=>{
+    const b=el('button','pbtn'+(d.sp?' sp':''),d.s+(d.sp?' ♥':''));
+    b.onclick=()=>{tourSelDay=d.id;dp.querySelectorAll('.pbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');};
+    dp.appendChild(b);
+  });
+  tov.classList.add('on');
+}
+function closeTourSheet(){tov.classList.remove('on');tourMid=null;}
+document.getElementById('tov-apply').onclick=()=>{
+  if(!tourSelDay||!tourMid)return;
+  applyTemplate(tourSelDay,tourMid.items);
+  closeTourSheet();
+};
+document.getElementById('tov-cancel').onclick=closeTourSheet;
+tov.addEventListener('click',e=>{if(e.target===tov)closeTourSheet();});
+
+function removePlanItem(p){
+  const dayId=S.assigned[p.id]?.day;
+  delete S.assigned[p.id];
+  if(dayId&&S.order[dayId])S.order[dayId]=S.order[dayId].filter(id=>id!==p.id);
+  saveS();renderAll();
+}
+
+function makePlanRow(p){
+  const isDone=!!S.visited[p.id];
+  const asgn=S.assigned[p.id]||{};
+  const timeSet=!!asgn.hour;
+  const timeStr=timeSet?(asgn.hour+':'+(asgn.minute||'00')):'+ Zeit';
+  const wrap=el('div','pr-wrap');
+
+  // Delete panel — round red minus button
+  if(!p.fixed){
+    const behind=el('div','pr-behind');
+    const btn=el('div','pr-behind-btn');
+    btn.innerHTML=svg('minus',16,2.5);
+    behind.appendChild(btn);
+    behind.style.opacity='0';
+    wrap.appendChild(behind);
+  }
+
+  const r=el('div','pr'+(isDone?' done':''));
+  r.dataset.id=p.id;
+
+  if(p.fixed){
+    r.appendChild(el('span','pr-time-btn',timeStr));
+  } else {
+    // Time wrap: display button + transparent native time input overlay
+    const tw=el('div','pr-time-wrap');
+    const tb=el('span','pr-time-btn'+(timeSet?'':' unset'),timeStr);
+    tw.appendChild(tb);
+    const tin=document.createElement('input');
+    tin.type='time';tin.className='pr-time-hidden';tin.step='1800';tin.setAttribute('list','time-30min');
+    tin.value=timeSet?(asgn.hour+':'+(asgn.minute||'00')):'';
+    tin.addEventListener('change',()=>{
+      const [h,m]=tin.value?tin.value.split(':'):['',''];
+      const dayId=S.assigned[p.id]?.day||DAYS[0].id;
+      if(!S.assigned[p.id])S.assigned[p.id]={day:dayId,hour:h,minute:m};
+      else{S.assigned[p.id].hour=h;S.assigned[p.id].minute=m;}
+      // Reset manual order so getDayOrder re-sorts chronologically
+      delete S.order[dayId];
+      saveS();renderPlan();updateBadge();
+    });
+    tw.appendChild(tin);
+    r.appendChild(tw);
+  }
+
+  const mid=el('div','pr-mid');
+  const titleEl=el('div','pr-mid-title');
+  if(p.fixed){
+    titleEl.textContent=p.n;
+  } else {
+    titleEl.innerHTML=p.n+' <span class="pr-type">('+CAT_L[p.c]+')</span>';
+    mid.onclick=()=>openInfoSheet(p.id, true);
+  }
+  mid.appendChild(titleEl);
+  r.appendChild(mid);
+
+  const right=el('div','pr-right');
+  // No more "i" button — info accessed via title tap
+  const hd=el('button','pr-handle');hd.innerHTML=svg('bars3',18,2);
+  right.appendChild(hd);
+  r.appendChild(right);
+
+  wrap.appendChild(r);
+  return wrap;
+}
+
+function attachPlanSwipe(wrap,p){
+  if(p.fixed)return; // fixed items can't be deleted
+  const r=wrap.querySelector('.pr');
+  const behind=wrap.querySelector('.pr-behind');
+  const THRESH=72,OPEN_X=-88;
+  let sx=0,sy=0,drag=false,dir=null,isOpen=false;
+
+  function snap(){
+    r.style.transition='transform .35s var(--spring)';
+    r.style.transform='translateX(0)';
+    if(behind){behind.style.opacity='0';behind.style.pointerEvents='none';}
+    isOpen=false;
+  }
+  function openPanel(){
+    r.style.transition='transform .32s var(--spring)';
+    r.style.transform=`translateX(${OPEN_X}px)`;
+    if(behind){behind.style.opacity='1';behind.style.pointerEvents='all';}
+    isOpen=true;
+  }
+
+  // Tap on red behind panel → confirm delete
+  if(behind){
+    behind.style.pointerEvents='none';
+    behind.addEventListener('click',()=>{
+      r.style.transition='transform .28s ease';
+      r.style.transform='translateX(-110%)';
+      setTimeout(()=>removePlanItem(p),260);
+    });
+  }
+
+  // Tap elsewhere when open → snap back
+  document.addEventListener('pointerdown',e=>{
+    if(!isOpen)return;
+    if(wrap.contains(e.target))return;
+    snap();
+  });
+
+  r.addEventListener('touchstart',e=>{
+    if(e.target.closest('button'))return;
+    if(isOpen){snap();return;}
+    sx=e.touches[0].clientX;sy=e.touches[0].clientY;drag=true;dir=null;
+    r.style.transition='none';
+  },{passive:true});
+  r.addEventListener('touchmove',e=>{
+    if(!drag)return;
+    const dx=e.touches[0].clientX-sx,dy=e.touches[0].clientY-sy;
+    if(dir===null){if(Math.abs(dx)<6&&Math.abs(dy)<6)return;dir=Math.abs(dx)>Math.abs(dy)*1.2?'h':'v';}
+    if(dir==='v')return;
+    e.preventDefault();
+    const x=Math.max(-110,Math.min(0,dx));
+    r.style.transform=`translateX(${x}px)`;
+    if(behind)behind.style.opacity=Math.min(1,Math.max(0,-x/THRESH));
+  },{passive:false});
+  r.addEventListener('touchend',e=>{
+    if(!drag||dir!=='h'){drag=false;return;}drag=false;
+    const dx=e.changedTouches[0].clientX-sx;
+    if(dx<-THRESH)openPanel();
+    else snap();
+  });
+  r.addEventListener('touchcancel',()=>{drag=false;snap();});
+}
+
+function attachDragHandle(wrap,container,dayId){
+  const handle=wrap.querySelector('.pr-handle');
+  const innerRow=wrap.querySelector('.pr');
+  let startY=0,dragging=false;
+  handle.addEventListener('touchstart',e=>{
+    startY=e.touches[0].clientY;dragging=true;
+    wrap.style.position='relative';wrap.style.zIndex='50';wrap.style.transition='none';
+    if(innerRow)innerRow.classList.add('dragging-row');
+  },{passive:true});
+  handle.addEventListener('touchmove',e=>{
+    if(!dragging)return;
+    e.preventDefault();
+    const y=e.touches[0].clientY;
+    wrap.style.transform=`translateY(${y-startY}px)`;
+    const rect=wrap.getBoundingClientRect();
+    const center=rect.top+rect.height/2;
+    const siblings=Array.from(container.querySelectorAll('.pr-wrap'));
+    const idx=siblings.indexOf(wrap);
+    if(y-startY<0&&idx>0){
+      const prev=siblings[idx-1],pr=prev.getBoundingClientRect();
+      if(center<pr.top+pr.height/2){container.insertBefore(wrap,prev);startY=y;wrap.style.transform='translateY(0px)';}
+    } else if(y-startY>0&&idx<siblings.length-1){
+      const next=siblings[idx+1],nr=next.getBoundingClientRect();
+      if(center>nr.top+nr.height/2){container.insertBefore(next,wrap);startY=y;wrap.style.transform='translateY(0px)';}
+    }
+  },{passive:false});
+  function end(){
+    if(!dragging)return;dragging=false;
+    wrap.style.transition='';wrap.style.transform='';wrap.style.zIndex='';wrap.style.position='';
+    if(innerRow)innerRow.classList.remove('dragging-row');
+    const ids=Array.from(container.querySelectorAll('.pr')).map(el=>el.dataset.id);
+    S.order[dayId]=ids;saveS();
+  }
+  handle.addEventListener('touchend',end);
+  handle.addEventListener('touchcancel',end);
+}
+
+/* ── SHEETS ── */
+const ov=document.getElementById('ov');
+const timeInput=document.getElementById('time-input');
+document.getElementById('time-clear').onclick=()=>{timeInput.value='';};
+
+function openSheet(id){
+  mid=id;const p=P.find(x=>x.id===id);const ex=S.assigned[id];
+  sDay=ex?.day||null;
+  document.getElementById('shname').textContent=p.n;
+  const dp=document.getElementById('dp');dp.innerHTML='';
+  DAYS.forEach(d=>{
+    const b=el('button','pbtn'+(d.sp?' sp':'')+(sDay===d.id?' on':''),d.s+(d.sp?' ♥':''));
+    b.onclick=()=>{sDay=d.id;dp.querySelectorAll('.pbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');};
+    dp.appendChild(b);
+  });
+  // If no day selected yet, default to first day for convenience
+  if(!sDay){sDay=DAYS[0].id;dp.firstChild?.classList.add('on');}
+  timeInput.value=ex?.hour?(ex.hour+':'+(ex.minute||'00')):'';
+  document.getElementById('br').style.display=ex?'':'none';
+  ov.classList.add('on');document.body.classList.add('sheet-open');
+}
+function closeSheet(){ov.classList.remove('on','time-only');mid=null;document.body.classList.remove('sheet-open');}
+
+function openTimeOnlySheet(id){
+  mid=id;const p=P.find(x=>x.id===id);const ex=S.assigned[id];
+  document.getElementById('shname').textContent=p.n;
+  document.getElementById('dp').innerHTML='';
+  sDay=ex?.day||DAYS[0].id;
+  timeInput.value=ex?.hour?(ex.hour+':'+(ex.minute||'00')):'';
+  document.getElementById('br').style.display=ex?'':'none';
+  ov.classList.add('on','time-only');
+}
+document.getElementById('ba').onclick=()=>{
+  if(!sDay)return;
+  const [h,m]=timeInput.value?timeInput.value.split(':'):['',''];
+  S.assigned[mid]={day:sDay,hour:h,minute:m};
+  saveS();closeSheet();renderAll();
+};
+document.getElementById('br').onclick=()=>{delete S.assigned[mid];saveS();closeSheet();renderAll();};
+document.getElementById('bca').onclick=closeSheet;
+ov.addEventListener('click',e=>{if(e.target===ov)closeSheet();});
+
+const fov=document.getElementById('fov');
+function openFilterSheet(){
+  tmpCat=aCat;tmpLoc=aLoc;
+  const fc=document.getElementById('fcat-row');fc.innerHTML='';
+  [{id:null,l:'Alle'},...CATS].forEach(c=>{
+    const b=el('button','pbtn'+(tmpCat===c.id?' on':''),c.l);
+    b.onclick=()=>{tmpCat=c.id;fc.querySelectorAll('.pbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');};fc.appendChild(b);
+  });
+  const fl=document.getElementById('floc-row');fl.innerHTML='';
+  [{id:null,l:'Alle Orte'},...LOCS].forEach(l=>{
+    const b=el('button','pbtn'+(tmpLoc===l.id?' on':''),l.l);
+    b.onclick=()=>{tmpLoc=l.id;fl.querySelectorAll('.pbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');};fl.appendChild(b);
+  });
+  fov.classList.add('on');
+}
+function closeFilterSheet(){fov.classList.remove('on');}
+document.getElementById('fapply').onclick=()=>{aCat=tmpCat;aLoc=tmpLoc;aSpecial=null;closeFilterSheet();renderDiscover();};
+document.getElementById('fca').onclick=closeFilterSheet;
+fov.addEventListener('click',e=>{if(e.target===fov)closeFilterSheet();});
+
+/* ── DRAG-TO-DISMISS for sheets ── */
+function makeDraggable(sheetEl,overlayEl,closeFn){
+  let startY=0,curY=0,dragging=false;
+  sheetEl.addEventListener('touchstart',e=>{
+    if(sheetEl.scrollTop>0)return; // only when scrolled to top
+    startY=e.touches[0].clientY;dragging=true;
+    sheetEl.classList.add('dragging');
+  },{passive:true});
+  sheetEl.addEventListener('touchmove',e=>{
+    if(!dragging)return;
+    curY=e.touches[0].clientY-startY;
+    if(curY<0)curY=0;
+    sheetEl.style.transform=`translateY(${curY}px)`;
+  },{passive:true});
+  sheetEl.addEventListener('touchend',()=>{
+    if(!dragging)return;dragging=false;
+    sheetEl.classList.remove('dragging');
+    if(curY>110){ sheetEl.style.transform='';closeFn(); }
+    else{ sheetEl.style.transform=''; }
+    curY=0;
+  });
+}
+makeDraggable(document.getElementById('fov-sheet'),fov,closeFilterSheet);
+makeDraggable(document.getElementById('ov-sheet'),ov,closeSheet);
+
+/* ── INFO SHEET ── */
+const iov=document.getElementById('iov');
+function openInfoSheet(id, showDayPicker=false){
+  const p=P.find(x=>x.id===id);
+  document.getElementById('iov-name').textContent=p.n;
+  document.getElementById('iov-feel').textContent=p.feel||'';
+  // Day picker section
+  const daySection=document.getElementById('iov-day-section');
+  if(showDayPicker){
+    daySection.style.display='';
+    const dp=document.getElementById('iov-dp');dp.innerHTML='';
+    const ex=S.assigned[id];
+    let curDay=ex?.day||null;
+    DAYS.forEach(d=>{
+      const b=el('button','pbtn'+(d.sp?' sp':'')+(curDay===d.id?' on':''),d.s+(d.sp?' ♥':''));
+      b.onclick=()=>{
+        curDay=d.id;
+        dp.querySelectorAll('.pbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+        if(S.assigned[id])S.assigned[id].day=curDay;
+        else S.assigned[id]={day:curDay,hour:'',minute:''};
+        saveS();renderPlan();updateBadge();
+      };
+      dp.appendChild(b);
+    });
+  } else {
+    daySection.style.display='none';
+  }
+  const il=document.getElementById('iov-info');il.innerHTML='';
+  const reservNeeded=(p.t||[]).some(t=>/reservier/i.test(t));
+  if(p.hours){const row=el('div','info-row');row.appendChild(el('span','info-label','Öffnungszeiten'));row.appendChild(el('span','info-value',p.hours+(reservNeeded?' | Reservieren!':'')));il.appendChild(row);}
+  const price=priceLabel(p);
+  if(price){const row=el('div','info-row');row.appendChild(el('span','info-label','Preis'));row.appendChild(el('span','info-value',price));il.appendChild(row);}
+  if(p.dist){const row=el('div','info-row');row.appendChild(el('span','info-label','Vom Hotel'));row.appendChild(el('span','info-value',distValue(p)));il.appendChild(row);}
+  const acts=document.getElementById('iov-acts');acts.innerHTML='';
+  if(p.m){const b=el('button','det-act det-maps');b.innerHTML=svg('pin',14,2)+' Maps öffnen';b.onclick=()=>openMaps(p.m);acts.appendChild(b);}
+  if(p.p){const b=el('button','det-act det-phone');b.innerHTML=svg('phone',13,2)+' '+p.p;b.onclick=()=>window.open('tel:+49'+p.p.replace(/\D/g,'').slice(1));acts.appendChild(b);}
+  iov.classList.add('on');
+}
+iov.addEventListener('click',e=>{if(e.target===iov)iov.classList.remove('on');});
+makeDraggable(document.getElementById('iov-sheet'),iov,()=>iov.classList.remove('on'));
+
+/* ── TABS ── */
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.onclick=()=>{
+    curV=btn.dataset.v;
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+    document.getElementById('view-'+curV).classList.add('on');
+    window.scrollTo(0,0);
+    if(curV==='plan')renderPlan();
+    if(curV==='touren')renderTouren();
+  };
+});
+
+/* ── INIT ── */
+function renderAll(){updateBadge();renderDiscover();if(curV==='plan')renderPlan();if(curV==='touren')renderTouren();}
+
+try{initSync();}catch(e){try{loadS();renderAll();}catch(e2){}}
+</script>
+</body>
+</html>
