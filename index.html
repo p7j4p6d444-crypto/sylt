@@ -255,7 +255,8 @@ input{font:inherit;color:inherit;background:none;border:none;outline:none}
 .c-det-acts{display:flex;gap:8px;padding:8px 14px 14px;margin-top:2px}
 .det-act{flex:1;min-width:0}
 .det-act.det-ico{flex:0 0 calc((100% - 24px)/4.6);min-width:0;padding:0}
-.det-act{display:flex;align-items:center;gap:5px;padding:0 10px;min-height:var(--btnh);border-radius:var(--btnr);white-space:nowrap;
+.det-act.det-ico2{flex:0 0 calc(25% - 6px);min-width:0;padding:0}
+.det-act{display:flex;align-items:center;gap:5px;padding:0 10px;height:var(--btnh);border-radius:var(--btnr);white-space:nowrap;
   font-size:var(--btnfs);font-weight:600;transition:opacity .12s,transform .1s;flex:1;justify-content:center}
 .det-act:active{opacity:.82;transform:scale(.98)}
 .det-maps{color:#fff;background:var(--primary)}
@@ -329,7 +330,7 @@ input{font:inherit;color:inherit;background:none;border:none;outline:none}
 .hotel-section-sep{height:.5px;background:var(--sep);margin:16px 0}
 .tour-place-chip{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:var(--rp);
   background:var(--fill);color:var(--l1)}
-.tour-btn{width:100%;min-height:var(--btnh);border-radius:var(--btnr);background:var(--primary);color:#fff;
+.tour-btn{width:100%;height:var(--btnh);display:flex;align-items:center;justify-content:center;gap:6px;border-radius:var(--btnr);background:var(--primary);color:#fff;
   font-size:var(--btnfs);font-weight:600;transition:opacity .14s}
 .tour-btn:active{opacity:.8}
 .tour-btn.done{background:var(--fill);color:var(--grn);display:flex;align-items:center;justify-content:center;gap:6px}
@@ -428,9 +429,9 @@ input{font:inherit;color:inherit;background:none;border:none;outline:none}
 
 /* Buttons — side by side, regular weight */
 .sacts-row{display:flex;gap:10px;margin-top:4px}
-#bca,#fca{flex:1;min-height:var(--btnh);border-radius:var(--btnr);background:var(--fill);
+#bca,#fca{flex:1;height:var(--btnh);display:flex;align-items:center;justify-content:center;border-radius:var(--btnr);background:var(--fill);
   font-size:var(--btnfs);font-weight:600;color:var(--l1);transition:opacity .14s}
-#ba,#fapply{flex:1;min-height:var(--btnh);border-radius:var(--btnr);background:var(--primary);
+#ba,#fapply{flex:1;height:var(--btnh);display:flex;align-items:center;justify-content:center;border-radius:var(--btnr);background:var(--primary);
   font-size:var(--btnfs);font-weight:600;color:var(--white);transition:opacity .14s}
 #bca:active,#fca:active{opacity:.6}
 #ba:active,#fapply:active{opacity:.8}
@@ -530,8 +531,8 @@ input{font:inherit;color:inherit;background:none;border:none;outline:none}
 
     <div class="dprow" id="tov-dp"></div>
     <div class="sacts-row">
-      <button id="tov-cancel" style="flex:1;min-height:var(--btnh);border-radius:var(--btnr);background:var(--fill);font-size:var(--btnfs);font-weight:600;color:var(--l1)">Abbrechen</button>
-      <button id="tov-apply" style="flex:1;min-height:var(--btnh);border-radius:var(--btnr);background:var(--primary);font-size:var(--btnfs);font-weight:600;color:#fff">Einplanen</button>
+      <button id="tov-cancel" style="flex:1;height:var(--btnh);border-radius:var(--btnr);background:var(--fill);font-size:var(--btnfs);font-weight:600;color:var(--l1)">Abbrechen</button>
+      <button id="tov-apply" style="flex:1;height:var(--btnh);border-radius:var(--btnr);background:var(--primary);font-size:var(--btnfs);font-weight:600;color:#fff">Einplanen</button>
     </div>
     </div>
   </div>
@@ -984,10 +985,10 @@ function buildDetActs(p,container){
   if(!acts.length)return;
   const n=acts.length;
   const mk=(a,mode)=>{ // mode: 'primary' | 'text' | 'icon'
-    const cls=(mode==='primary'?'det-google':a.cls||'det-maps2')+(mode==='icon'?' det-ico':'');
+    const cls=(mode==='primary'?'det-google':a.cls||'det-maps2')+(mode==='icon'?' det-ico':mode==='icon2'?' det-ico2':'');
     const b=el('button','det-act '+cls);
     const withIcon=(a.i==='pin'||a.i==='phone'); // Maps & Anrufen: Icon+Text wenn breit
-    if(mode==='icon')b.innerHTML=svg(a.i,a.i==='phone'?20:21,2);
+    if(mode==='icon'||mode==='icon2')b.innerHTML=svg(a.i,a.i==='phone'?20:21,2);
     else if(withIcon)b.innerHTML=svg(a.i,a.i==='phone'?15:16,2)+' '+a.l;
     else b.textContent=a.l;
     b.onclick=e=>{e.stopPropagation();a.fn();};
@@ -998,6 +999,9 @@ function buildDetActs(p,container){
     if(acts[1])mk(acts[1],'text');
   }else if(n===3&&acts[2].i==='phone'&&!acts.some(a=>a.i==='globe')){
     mk(acts[0],'primary');mk(acts[1],'text');mk(acts[2],'icon');
+  }else if(n===3){
+    // Google = 50 %, zwei Icons teilen die rechte Hälfte
+    mk(acts[0],'primary');mk(acts[1],'icon2');mk(acts[2],'icon2');
   }else{
     mk(acts[0],'primary');
     for(let i=1;i<n;i++)mk(acts[i],'icon');
