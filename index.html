@@ -38,7 +38,7 @@
   --serif: "New York",ui-serif,Georgia,serif;
   --sans:  -apple-system,"SF Pro Text",BlinkMacSystemFont,"Helvetica Neue",sans-serif;
   --r:     24px;
-  --rlg:   24px;
+  --rlg:   26px;
   --rp:    100px;
   --ph:    16px;
   --btnh:  44px;
@@ -253,11 +253,15 @@ input{font:inherit;color:inherit;background:none;border:none;outline:none}
 
 /* Detail actions — Maps primary navy, Phone secondary blue */
 .c-det-acts{display:flex;gap:8px;padding:8px 14px 14px;margin-top:2px}
+.det-act{flex:1;min-width:0}
+.det-act.det-ico{flex:0 0 calc((100% - 24px)/4.6);min-width:0;padding:0}
 .det-act{display:flex;align-items:center;gap:5px;padding:0 10px;min-height:var(--btnh);border-radius:var(--btnr);white-space:nowrap;
   font-size:var(--btnfs);font-weight:600;transition:opacity .12s,transform .1s;flex:1;justify-content:center}
 .det-act:active{opacity:.82;transform:scale(.98)}
 .det-maps{color:#fff;background:var(--primary)}
-.det-phone{color:var(--blue);background:rgba(74,144,196,.13)}
+.det-phone{color:#1FA04A;background:rgba(52,199,89,.14)}
+.det-google{color:#fff;background:var(--primary)}
+.det-web,.det-maps2{color:var(--blue);background:rgba(74,144,196,.13)}
 
 /* ══ PLAN VIEW ══ */
 #plan{padding:20px var(--ph) calc(70px + env(safe-area-inset-bottom,0px))}
@@ -386,8 +390,8 @@ input{font:inherit;color:inherit;background:none;border:none;outline:none}
   padding:8px var(--ph) calc(24px + env(safe-area-inset-bottom,0px));
   max-height:82vh;overflow-y:auto;touch-action:pan-y;overscroll-behavior:contain;
   transform:translateY(100%);transition:transform .46s var(--spring);will-change:transform;
-  position:relative}
-.sheet::after{content:'';position:fixed;left:0;right:0;bottom:-120px;height:120px;background:var(--white);pointer-events:none}
+  position:relative;box-shadow:0 15vh 0 0 var(--white),0 30vh 0 0 var(--white),0 45vh 0 0 var(--white),0 60vh 0 0 var(--white)}
+
 #ov.on .sheet,#fov.on .sheet,#tov.on .sheet,#iov.on .sheet{transform:translateY(0)}
 .sheet.dragging{transition:none}
 .sdl{width:36px;height:5px;border-radius:3px;background:var(--fill2);margin:0 auto 18px}
@@ -493,18 +497,7 @@ input{font:inherit;color:inherit;background:none;border:none;outline:none}
     <div class="dprow" id="dp"></div>
     <div class="ssec">Uhrzeit <span class="ssec-opt">optional</span></div>
     <div class="time-picker-row">
-      <input type="time" id="time-input" class="time-native" step="1800" list="time-30min">
-      <datalist id="time-30min">
-        <option value="06:00"><option value="06:30"><option value="07:00"><option value="07:30">
-        <option value="08:00"><option value="08:30"><option value="09:00"><option value="09:30">
-        <option value="10:00"><option value="10:30"><option value="11:00"><option value="11:30">
-        <option value="12:00"><option value="12:30"><option value="13:00"><option value="13:30">
-        <option value="14:00"><option value="14:30"><option value="15:00"><option value="15:30">
-        <option value="16:00"><option value="16:30"><option value="17:00"><option value="17:30">
-        <option value="18:00"><option value="18:30"><option value="19:00"><option value="19:30">
-        <option value="20:00"><option value="20:30"><option value="21:00"><option value="21:30">
-        <option value="22:00"><option value="22:30"><option value="23:00">
-      </datalist>
+      <input type="time" id="time-input" class="time-native" step="300">
       <button id="time-clear" class="time-clear-btn">Löschen</button>
     </div>
     <button id="br">Aus Planung entfernen</button>
@@ -654,6 +647,7 @@ const IC={
   pin:   `<path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>`,
   phone: `<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"/>`,
   xmk:   `<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>`,
+  globe:`<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.9 5.7 3.9 9s-1.4 6.4-3.9 9c-2.5-2.6-3.9-5.7-3.9-9s1.4-6.4 3.9-9z"/>`,
   srch:  `<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>`,
   xcirc:`<path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>`,
   plus:  `<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>`,
@@ -677,11 +671,9 @@ function svg(k,sz=20,sw=1.8){return `<svg xmlns="http://www.w3.org/2000/svg" wid
 
 /* ── PLATFORM-AWARE MAPS ── */
 function openMaps(query){
-  const ua=navigator.userAgent;
   const q=encodeURIComponent(query);
-  const isIOS=/iPad|iPhone|iPod/.test(ua)&&!window.MSStream;
-  const isIOSSafari=isIOS&&/Safari/.test(ua)&&!/CriOS|FxiOS|EdgiOS/.test(ua);
-  if(isIOSSafari)
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  if(isIOS)
     window.open('https://maps.apple.com/?q='+q,'_blank');
   else
     window.open('https://www.google.com/maps/search/?api=1&query='+q,'_blank');
@@ -705,11 +697,11 @@ const P=[
    info:'Schmaler Sandstreifen an der Südspitze Sylts. Naturschutzgebiet. Zu Fuß in 10 Min vom Hotel erreichbar.',
    feel:'Morgens um 9 Uhr gehört er euch allein. Links Nordsee, rechts Watt — das ist der Moment der bleibt.',
    t:['kostenlos'],m:'Hörnum Odde Sylt'},
-  {id:'matthiesen',n:'Fisch Matthiesen',sub:'Bestes Fischbrötchen Hörnums — seit Jahrzehnten',c:'restaurant',loc:'hoernum',tr:'fuss',hl:true,rain:false,veg:false,dist:'4 min · Zu Fuß',hours:'Di–So 11–20 Uhr',
+  {id:'matthiesen',n:'Fisch Matthiesen',sub:'Bestes Fischbrötchen Hörnums — seit Jahrzehnten',c:'restaurant',loc:'hoernum',tr:'fuss',hl:false,rain:true,veg:false,dist:'4 min · Zu Fuß',hours:'Di–So 11–20 Uhr',
    info:'Fischbrötchen-Bistro, 4 Min Fußweg. Nur Barzahlung. Krabbenbrötchen, Fischsuppe, Schollenfilet.',
    feel:'Kein Hochglanz, nur frischer Fisch — und das ist genau richtig. Brötchen immer festhalten: die Möwen sind schneller.',
    t:['Nur Bar!','Abends reservieren'],m:'Fisch Matthiesen Hörnum',p:'04651-881773'},
-  {id:'landfein',n:'Landfein',sub:'Romantisches Abendmahl in den Hörnumer Dünen',c:'restaurant',loc:'hoernum',tr:'fuss',hl:true,rain:false,veg:true,dist:'8 min · Zu Fuß',hours:'Tägl. ab 14 Uhr (Juli)',
+  {id:'landfein',w:'https://landfein-sylt.de',n:'Landfein',sub:'Romantisches Abendmahl in den Hörnumer Dünen',c:'restaurant',loc:'hoernum',tr:'fuss',hl:true,rain:true,veg:true,dist:'8 min · Zu Fuß',hours:'Tägl. ab 14 Uhr (Juli)',
    info:'Restaurant in den Dünen. Ihr wählt den Hauptgang, Rest kommt als Überraschung. Draußen bei gutem Wetter reserviert.',
    feel:'Das romantischste Dinner auf Sylt. Euer Jahrestag ♥ — Di 21.07 · 20:00, reserviert.',
    t:['Di 21.07 · 20:00'],m:'Landfein Hörnum Sylt',p:'04651-2003204',pd:'di',phour:'20',pminute:'00'},
@@ -717,22 +709,22 @@ const P=[
    info:'Flacher, befestigter Radweg entlang des Brackwasserbeckens. 8 km vom Hotel. Keine Steigungen.',
    feel:'Einer der schönsten Radwege Deutschlands — absolute Stille außer Vogelstimmen. Macht süchtig.',
    t:['kostenlos','Ruhige Strecke'],m:'Rantumbecken Sylt'},
-  {id:'friesenhaus',n:'Friesenhäuser Keitum',sub:'Kapitänshäuser aus dem 18. Jh. im schönsten Dorf Sylts',c:'spaziergang',loc:'keitum',tr:'rad',hl:true,rain:true,veg:false,dist:'18 km · ~55 min Rad',
+  {id:'friesenhaus',n:'Friesenhäuser Keitum',sub:'Kapitänshäuser aus dem 18. Jh. im schönsten Dorf Sylts',c:'spaziergang',loc:'keitum',tr:'rad',hl:true,rain:false,veg:false,dist:'18 km · ~55 min Rad',
    info:'Dorfspaziergang durch Keitum. Reetgedeckte Kapitänshäuser ab dem 17. Jh. 18 km vom Hotel, RE möglich.',
    feel:'Das schönste Dorf auf ganz Sylt. Hier wohnt die echte Seele der Insel — kein Hochglanz, nur Geschichte.',
    t:['kostenlos','RE möglich','Auch bei Regen'],m:'Keitum Sylt Friesenhäuser'},
-  {id:'sunhair',n:'Sünhair',sub:'Reetgedecktes Restaurant in Keitum — Fisch, Fleisch, Veggie',c:'restaurant',loc:'keitum',tr:'rad',hl:true,rain:true,veg:true,dist:'18 km · ~55 min Rad',hours:'Di–So ab 12 Uhr',
-   info:'Restaurant unter echtem Reet in Keitum. Fisch, Fleisch, Vegetarisch. ~€35–50/P.',
+  {id:'sunhair',w:'https://restaurant-suenhair.de',n:'Sünhair',sub:'Reetgedecktes Restaurant in Keitum — Fisch, Fleisch, Veggie',c:'restaurant',loc:'keitum',tr:'rad',hl:false,rain:true,veg:true,dist:'18 km · ~55 min Rad',hours:'Di–So ab 12 Uhr',
+   info:'Restaurant unter echtem Reet in Keitum. Fisch, Fleisch, Vegetarisch. ~35–50 €/P.',
    feel:'Das Lokal das wirklich für euch beide passt. Warme Atmosphäre, ehrliche Küche — einer der besten Abende.',
-   t:['Vegetarisch','Reservierung','~€35–50/P'],m:'Sünhair Keitum Sylt',p:'04651-9380780'},
+   t:['Vegetarisch','Reservierung','~35–50 €/P'],m:'Sünhair Keitum Sylt',p:'04651-9380780'},
   {id:'kliffweg',n:'Kliffweg',sub:'Schönster Küstenweg Sylts — über den Dünen, Meerblick',c:'spaziergang',loc:'wenningstedt',tr:'rad',hl:true,rain:false,veg:false,dist:'22 km · ~65 min Rad',
    info:'Fußweg oberhalb der Dünen von Wenningstedt bis zum Roten Kliff, 4 km. Rad abstellen, zu Fuß gehen.',
    feel:'Um 20:30 Uhr laufen, wenn das Abendlicht alles gold macht — das ist der Weg der im Gedächtnis bleibt.',
    t:['Sonnenuntergang','kostenlos','Must-See'],m:'Kliffweg Wenningstedt Sylt'},
-  {id:'fitschen',n:'Fitschen am Dorfteich',sub:'Strandkörbe am Dorfteich — gehobene Küche in Wenningstedt',c:'restaurant',loc:'wenningstedt',tr:'rad',hl:true,rain:true,veg:true,dist:'22 km · ~65 min Rad',hours:'Mi–So ab 17:30 Uhr',
-   info:'Restaurant in Wenningstedt. Strandkörbe im Garten mit Dorfteichblick. ~€40–50/P. Reservierung nötig.',
+  {id:'fitschen',n:'Fitschen am Dorfteich',sub:'Strandkörbe am Dorfteich — gehobene Küche in Wenningstedt',c:'restaurant',loc:'wenningstedt',tr:'rad',hl:false,rain:true,veg:true,dist:'22 km · ~65 min Rad',hours:'Mi–So ab 17:30 Uhr',
+   info:'Restaurant in Wenningstedt. Strandkörbe im Garten mit Dorfteichblick. ~40–50 €/P. Reservierung nötig.',
    feel:'Einer der besten Abende auf Sylt. Die kochen auf Niveau und wissen, wie man Gäste willkommen heißt.',
-   t:['Vegetarisch','Reservierung nötig','~€40–50/P'],m:'Fitschen Dorfteich Wenningstedt Sylt'},
+   t:['Vegetarisch','Reservierung nötig','~40–50 €/P'],m:'Fitschen Dorfteich Wenningstedt Sylt'},
   {id:'stronwai',n:'Strönwai Kampen',sub:'Teuerste Straße Deutschlands — Villen und Reetdachhäuser',c:'spaziergang',loc:'kampen',tr:'rad',hl:false,rain:false,veg:false,dist:'27 km · ~80 min Rad',
    info:'Hauptstraße Kampens. Spaziergang, kein Eintritt. Reetdachhäuser ab dem 18. Jh. neben modernen Glasvillen.',
    feel:'Wie Monopoly in echt — und ihr spaziert einfach durch. 100.000 € pro Quadratmeter, kostenlos ankucken.',
@@ -749,20 +741,20 @@ const P=[
    info:'Café in Kiefernlandschaft, Eigenröstung, täglich frischer Kuchen. Tägl. 10–18 Uhr. Keine Reservierung.',
    feel:'Um 16 Uhr auf die Westterrasse. Das Abendlicht fällt dann goldfarben auf das Wattenmeer. Dazu hausgerösteter Kaffee.',
    t:['16 Uhr Westterrasse!','Auch bei Regen'],m:'Kupferkanne Kampen Sylt',p:'04651-41010'},
-  {id:'ingwersen',n:'Bäckerei Ingwersen',sub:'Beste Handwerksbäckerei Sylts — RE direkt nach Morsum',c:'cafe',loc:'morsum',tr:'re',hl:true,rain:true,veg:true,dist:'RE · ~20 min',hours:'Mo–Sa ab 7:00 Uhr',
+  {id:'ingwersen',n:'Bäckerei Ingwersen',sub:'Beste Handwerksbäckerei Sylts — RE direkt nach Morsum',c:'cafe',loc:'morsum',tr:'re',hl:false,rain:true,veg:true,dist:'RE · ~20 min',hours:'Mo–Sa ab 7:00 Uhr',
    info:'Handwerksbäckerei in Morsum. Mo–Sa ab 7:00 Uhr. RE von Westerland nach Morsum, 2 Stationen.',
    feel:'Sauerteigbrot mit echter Kruste, Brötchen die nach Brot schmecken. RE nach Morsum, frühstücken, zurück — perfekter Morgen.',
    t:['Frühstück','Auch bei Regen','Beste Bäckerei Sylts'],m:'Bäckerei Ingwersen Morsum Sylt'},
   {id:'ellenbogen',n:'Ellenbogen',sub:'Nördlichster Punkt Deutschlands — Wanderdünen und Einsamkeit',c:'spaziergang',loc:'list',tr:'rad',hl:true,rain:false,veg:false,dist:'~40 km · Tagestour Rad',hours:'Immer zugänglich',
-   info:'Nördlichste Landspitze Deutschlands. Private Mautstraße: Autos ~€8, Räder frei. Ab List ~30 Min per Rad.',
+   info:'Nördlichste Landspitze Deutschlands. Private Mautstraße: Autos ~8 €, Räder frei. Ab List ~30 Min per Rad.',
    feel:'Karge Dünenlandschaft, zwei Leuchttürme, kaum Menschen — das wilde Ende der Insel. Mit dem E-Bike ab Kampen gut machbar, unbedingt Wind einplanen.',
    t:['Räder mautfrei','Viel Wind','Tagestour'],m:'Ellenbogen List Sylt'},
-  {id:'hafen-list',n:'Hafen List',sub:'Nördlichster Hafen Deutschlands — Gosch-Stammhaus und Fährblick',c:'cafe',loc:'list',tr:'rad',hl:false,rain:true,veg:true,dist:'~38 km · Tagestour Rad',hours:'Hafen immer, Buden ca. 11–20 Uhr',
+  {id:'hafen-list',w:'https://www.gosch.de',n:'Hafen List',sub:'Nördlichster Hafen Deutschlands — Gosch-Stammhaus und Fährblick',c:'cafe',loc:'list',tr:'rad',hl:false,rain:true,veg:true,dist:'~38 km · Tagestour Rad',hours:'Hafen immer, Buden ca. 11–20 Uhr',
    info:'Hafenpromenade mit Fischbuden, Gosch-Stammhaus seit 1972, Fähre nach Rømø (DK).',
    feel:'Fischbrötchen am Original-Gosch, Fähren gucken, dänische Nordsee-Atmosphäre. Perfekte Mittagspause auf der Nord-Tour.',
    t:['Gosch-Original','Auch bei Regen'],m:'Hafen List Sylt'},
-  {id:'strand-h',n:'Nordseestrand Hörnum',sub:'Breiter Sandstrand — 5 Minuten vom Hotel',c:'strand',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:false,dist:'5 min · Zu Fuß',
-   info:'Breiter weißer Sandstrand, 5 Min Fußweg. Strandkörbe ~€12/Tag. Strandgebühr ~€4/P täglich.',
+  {id:'strand-h',n:'Nordseestrand Hörnum',sub:'Breiter Sandstrand — 5 Minuten vom Hotel',c:'strand',loc:'hoernum',tr:'fuss',hl:true,rain:false,veg:false,dist:'5 min · Zu Fuß',
+   info:'Breiter weißer Sandstrand, 5 Min Fußweg. Strandkörbe ~12 €/Tag. Strandgebühr ~4 €/P täglich.',
    feel:'Abends gegen 21:30 Uhr hier sitzen und die Sonne untergehen sehen. Einen Abend nur das.',
    t:['Strandgebühr','Strandkorb','Sonnenuntergang'],m:'Nordseestrand Hörnum Sylt'},
   {id:'watt',n:'Wattenmeer Ostseite',sub:'Stille Ostküste — UNESCO-Welterbe direkt ums Eck',c:'spaziergang',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:false,dist:'6 min · Zu Fuß',
@@ -773,7 +765,7 @@ const P=[
    info:'Pool, Infrarot-, Dampf- und finnische Sauna. 80m entfernt. In der Buchung inklusive. Bademantel mitbringen.',
    feel:'Einen halben Tag abschalten — das Bademantel-Feeling mitten auf Sylt. Gut als Regentag-Plan.',
    t:['1× inklusive','Auch bei Regen'],m:'Hotel am Leuchtturm Hörnum Sylt',p:'04651-449170'},
-  {id:'straend',n:'Straend Konzept',sub:'Lockeres Dünen-Bistro — Bowls, Pasta, Fisch',c:'restaurant',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:true,dist:'10 min · Zu Fuß',
+  {id:'straend',n:'Straend Konzept',sub:'Lockeres Dünen-Bistro — Bowls, Pasta, Fisch',c:'restaurant',loc:'hoernum',tr:'fuss',hl:false,rain:true,veg:true,dist:'10 min · Zu Fuß',
    info:'Bistro in den Hörnumer Dünen. Bowls, Pinsa, Pasta, Fisch. Gute veggie Optionen für Anna.',
    feel:'Locker, entspannt, kein Schickimicki. Perfekt wenn ihr einfach gut essen wollt ohne Reservierung.',
    t:['Vegetarisch','Faire Preise'],m:'Straend Hörnum Sylt'},
@@ -789,10 +781,10 @@ const P=[
    info:'Eisdiele mit eigener Produktion. Tägl. ca. 11–18 Uhr, saisonal.',
    feel:'Das beste Eis der Insel — täglich frisch in kleinen Chargen produziert. Nach der Strandpromenade genau das Richtige.',
    t:['Sommer-Highlight'],m:'Sylter Eismanufaktur Westerland'},
-  {id:'kaphorn',n:'Strandrestaurant Kap-Horn',sub:'Strandlocation in den Dünen — Schnitzel, Fisch, Pasta',c:'restaurant',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:true,dist:'10 min · Zu Fuß',hours:'Mo, Mi–So 12–22 Uhr',
+  {id:'kaphorn',n:'Strandrestaurant Kap-Horn',sub:'Strandlocation in den Dünen — Schnitzel, Fisch, Pasta',c:'restaurant',loc:'hoernum',tr:'fuss',hl:false,rain:true,veg:true,dist:'10 min · Zu Fuß',hours:'Mo, Mi–So 12–22 Uhr',
    info:'Strandrestaurant in den Hörnumer Dünen. Mo, Mi–So 12–22 Uhr. Di geschlossen.',
    feel:'Gute Alternative zu Landfein für einen entspannten Abend ohne Reservierung.',
-   t:['~€35–50/P'],m:'Strandrestaurant Kap-Horn Hörnum Sylt'},
+   t:['~35–50 €/P'],m:'Strandrestaurant Kap-Horn Hörnum Sylt'},
   {id:'sydhavn',n:'Sydhavn Crêpes',sub:'Crêpes-Stand am Hafen — Blick auf Amrum',c:'cafe',loc:'hoernum',tr:'fuss',hl:false,rain:false,veg:true,dist:'5 min · Zu Fuß',
    info:'Kleiner Crêpes-Stand direkt am Hafen Hörnum. 5 Min Fußweg.',
    feel:'Perfekter Nachmittags-Snack mit Blick aufs Wasser. Mehr braucht es nicht.',
@@ -801,20 +793,20 @@ const P=[
    info:'Vollsortimentssupermarkt, 5 Min Fußweg. Mo–Sa 08–22, So 10–20 Uhr.',
    feel:'Für Selbstversorger-Frühstück und Vorräte. Günstiger als jedes Sylt-Restaurant.',
    t:[],m:'EDEKA Hörnum Sylt'},
-  {id:'kaffeeroest',n:'Kaffeerösterei Sylt',sub:'Eigenröstung direkt am Rantumer Hafen',c:'cafe',loc:'rantum',tr:'rad',hl:false,rain:false,veg:true,dist:'9 km · ~28 min Rad',hours:'Tägl. 9–18 Uhr',
+  {id:'kaffeeroest',n:'Kaffeerösterei Sylt',sub:'Eigenröstung direkt am Rantumer Hafen',c:'cafe',loc:'rantum',tr:'rad',hl:false,rain:true,veg:true,dist:'9 km · ~28 min Rad',hours:'Tägl. 9–18 Uhr',
    info:'Café mit Eigenröstung am Rantumer Hafen. 9 km vom Hotel. Tägl. 9–18 Uhr.',
    feel:'Schönste Radpause auf dem Weg nach Keitum. Kaffee der nach was schmeckt.',
    t:['Eigenröstung','Am Hafen'],m:'Kaffeerösterei Rantum Sylt'},
-  {id:'sansibar',n:'Sansibar',sub:'Kultige Strandbar in Rantum — Currywurst und Fisch',c:'cafe',loc:'rantum',tr:'rad',hl:false,rain:false,veg:false,dist:'9 km · ~28 min Rad',hours:'Tägl. 11–23 Uhr',
-   info:'Strandbar-Restaurant in Rantum, 9 km. Tägl. 11–23 Uhr. Currywurst €12, Fisch ab €16.',
+  {id:'sansibar',w:'https://www.sansibar.de',n:'Sansibar',sub:'Kultige Strandbar in Rantum — Currywurst und Fisch',c:'cafe',loc:'rantum',tr:'rad',hl:true,rain:true,veg:false,dist:'9 km · ~28 min Rad',hours:'Tägl. 11–23 Uhr',
+   info:'Strandbar-Restaurant in Rantum, 9 km. Tägl. 11–23 Uhr. Currywurst 12 €, Fisch ab 16 €.',
    feel:'Kult-Status verdient, aber abends Rummel und Promi-Getue. Mittags ist es angenehmer und authentischer.',
    t:['Mittags ideal'],m:'Sansibar Rantum Sylt'},
   {id:'promenade',n:'Strandpromenade Westerland',sub:'Hauptpromenade Sylts — einmal durchradeln',c:'spaziergang',loc:'westerland',tr:'rad',hl:false,rain:false,veg:false,dist:'15 km · ~45 min Rad',
    info:'Hauptpromenade Sylts, 15 km vom Hotel. GOSCH, Souvenirs, Strandabschnitt.',
    feel:'Einmal durchradeln gehört dazu — aber nicht länger als nötig. Dann weiter nach Kampen.',
    t:['kostenlos'],m:'Strandpromenade Westerland Sylt'},
-  {id:'gosch',n:'GOSCH Fischbrötchen',sub:'Bekannteste Fischbude Sylts — ab €6 an der Promenade',c:'cafe',loc:'westerland',tr:'rad',hl:false,rain:false,veg:false,dist:'15 km · ~45 min Rad',
-   info:'Fischbrötchen-Kette an der Westerland-Promenade. 15 km vom Hotel. Matjes, Lachs, Krabben ab €6.',
+  {id:'gosch',w:'https://www.gosch.de',n:'GOSCH Fischbrötchen',sub:'Bekannteste Fischbude Sylts — ab 6 € an der Promenade',c:'cafe',loc:'westerland',tr:'rad',hl:false,rain:false,veg:false,dist:'15 km · ~45 min Rad',
+   info:'Fischbrötchen-Kette an der Westerland-Promenade. 15 km vom Hotel. Matjes, Lachs, Krabben ab 6 €.',
    feel:'Günstig, lecker, ikonisch. Für die Mittagspause auf der Kampen-Tour unvermeidlich.',
    t:['Günstig'],m:'GOSCH Westerland Sylt'},
   {id:'edeka-w',n:'EDEKA / REWE Westerland',sub:'Supermarkt in Westerland — für Nachkäufe',c:'einkaufen',loc:'westerland',tr:'rad',hl:false,rain:true,veg:false,dist:'15 km · ~45 min Rad',hours:'Mo–Sa 08–22, So 10–20',
@@ -845,7 +837,7 @@ const P=[
    info:'Restaurant in Kampens Ortsmitte. Di–So ab 12 Uhr.',
    feel:'Wenn ihr den Kampen-Tag genießt und keinen Hunger auf die Rückfahrt habt — hier essen, dann Bus.',
    t:['Falls Abend in Kampen','Auch bei Regen'],m:'Dorfkrug Kampen Sylt'},
-  {id:'morsum-k',n:'Morsum Kliff',sub:'Fossilien-Steilküste auf der stillen Ostseite — RE direkt',c:'spaziergang',loc:'morsum',tr:'re',hl:false,rain:false,veg:false,dist:'RE · ~20 min',
+  {id:'morsum-k',n:'Morsum Kliff',sub:'Fossilien-Steilküste auf der stillen Ostseite — RE direkt',c:'spaziergang',loc:'morsum',tr:'re',hl:true,rain:false,veg:false,dist:'RE · ~20 min',
    info:'Geologische Formation auf der Ostseite Sylts. Fossilien im Fels. RE direkt nach Morsum. Kostenlos.',
    feel:'Komplett andere Energie als die Westküste — still, unberührt, fast vergessen. Perfekt mit Ingwersen-Frühstück.',
    t:['kostenlos','RE direkt!','Fossilien'],m:'Morsum Kliff Sylt'},
@@ -974,6 +966,37 @@ document.addEventListener('pointerdown',e=>{
   if(sbar.contains(e.target))return;
   collapseSearch();
 });
+
+function buildDetActs(p,container){
+  container.innerHTML='';
+  const acts=[];
+  if(['restaurant','cafe','einkaufen'].includes(p.c))
+    acts.push({l:'Google',i:'srch',cls:'',fn:()=>window.open('https://www.google.com/search?q='+encodeURIComponent(p.n+' Sylt'),'_blank')});
+  if(p.m)acts.push({l:'Maps',i:'pin',cls:'det-maps2',fn:()=>openMaps(p.m)});
+  if(p.w)acts.push({l:'Website',i:'globe',cls:'det-web',fn:()=>window.open(p.w,'_blank')});
+  if(p.p)acts.push({l:'Anrufen',i:'phone',cls:'det-phone',fn:()=>window.open('tel:+49'+p.p.replace(/\D/g,'').slice(1))});
+  if(!acts.length)return;
+  const n=acts.length;
+  const mk=(a,mode)=>{ // mode: 'primary' | 'text' | 'icon'
+    const cls=(mode==='primary'?'det-google':a.cls||'det-maps2')+(mode==='icon'?' det-ico':'');
+    const b=el('button','det-act '+cls);
+    const withIcon=(a.i==='pin'||a.i==='phone'); // Maps & Anrufen: Icon+Text wenn breit
+    if(mode==='icon')b.innerHTML=svg(a.i,a.i==='phone'?20:21,2);
+    else if(withIcon)b.innerHTML=svg(a.i,a.i==='phone'?15:16,2)+' '+a.l;
+    else b.textContent=a.l;
+    b.onclick=e=>{e.stopPropagation();a.fn();};
+    container.appendChild(b);
+  };
+  if(n<=2){
+    mk(acts[0],'primary');
+    if(acts[1])mk(acts[1],'text');
+  }else if(n===3&&acts[2].i==='phone'&&!acts.some(a=>a.i==='globe')){
+    mk(acts[0],'primary');mk(acts[1],'text');mk(acts[2],'icon');
+  }else{
+    mk(acts[0],'primary');
+    for(let i=1;i<n;i++)mk(acts[i],'icon');
+  }
+}
 
 /* ── FILTER ROW ── */
 function makeFilterChip(label,isOn,extraClass,onToggle){
@@ -1110,17 +1133,8 @@ function makeCard(p,hideAsgnBadge=false){
 
   // Detail actions
   const da=el('div','c-det-acts');
-  if(p.m){
-    const b=el('button','det-act det-maps');
-    b.innerHTML=svg('pin',14,2)+' Maps öffnen';
-    b.onclick=()=>openMaps(p.m);da.appendChild(b);
-  }
-  if(p.p){
-    const b=el('button','det-act det-phone');
-    b.innerHTML=svg('phone',13,2)+' '+p.p;
-    b.onclick=()=>window.open('tel:+49'+p.p.replace(/\D/g,'').slice(1));da.appendChild(b);
-  }
-  if(da.children.length)cinner.appendChild(da);
+  buildDetActs(p,da);
+  cinner.appendChild(da);
 
   cdiv.appendChild(cinner);card.appendChild(cdiv);
   wrap.appendChild(card);
@@ -1164,12 +1178,16 @@ function renderDiscover(){
   hstop.onclick=()=>hs.classList.toggle('open');
   hs.appendChild(hstop);
   const hsa=el('div','hotel-section-acts');
-  const hmaps=el('button','det-act det-maps');
-  hmaps.innerHTML=svg('pin',14,2)+' Maps öffnen';
+  // Wie Orte: Google + Maps Text, Phone als Icon (3er-Konstellation)
+  const hg=el('button','det-act det-google','Google');
+  hg.onclick=e=>{e.stopPropagation();window.open('https://www.google.com/search?q='+encodeURIComponent('54 Grad Nord Apartments Hörnum Sylt'),'_blank');};
+  hsa.appendChild(hg);
+  const hmaps=el('button','det-act det-maps2');
+  hmaps.innerHTML=svg('pin',16,2)+' Maps';
   hmaps.onclick=e=>{e.stopPropagation();openMaps('54 Grad Nord Apartments Hörnum Sylt');};
   hsa.appendChild(hmaps);
-  const hph=el('button','det-act det-phone');
-  hph.innerHTML=svg('phone',13,2)+' 04651-449170';
+  const hph=el('button','det-act det-phone det-ico');
+  hph.innerHTML=svg('phone',20,2);
   hph.onclick=e=>{e.stopPropagation();window.open('tel:+494651449170');};
   hsa.appendChild(hph);
   hs.appendChild(hsa);
@@ -1371,7 +1389,7 @@ function makePlanRow(p){
     const tb=el('span','pr-time-btn'+(timeSet?'':' unset'),timeStr);
     tw.appendChild(tb);
     const tin=document.createElement('input');
-    tin.type='time';tin.className='pr-time-hidden';tin.step='1800';tin.setAttribute('list','time-30min');
+    tin.type='time';tin.className='pr-time-hidden';tin.step='300';
     tin.value=timeSet?(asgn.hour+':'+(asgn.minute||'00')):'';
     tin.addEventListener('change',()=>{
       const [h,m]=tin.value?tin.value.split(':'):['',''];
@@ -1689,9 +1707,8 @@ function openInfoSheet(id, showDayPicker=false){
   const price=priceLabel(p);
   if(price){const row=el('div','info-row');row.appendChild(el('span','info-label','Preis'));row.appendChild(el('span','info-value',price));il.appendChild(row);}
   if(p.dist){const row=el('div','info-row');row.appendChild(el('span','info-label','Vom Hotel'));row.appendChild(el('span','info-value',distValue(p)));il.appendChild(row);}
-  const acts=document.getElementById('iov-acts');acts.innerHTML='';
-  if(p.m){const b=el('button','det-act det-maps');b.innerHTML=svg('pin',14,2)+' Maps öffnen';b.onclick=()=>openMaps(p.m);acts.appendChild(b);}
-  if(p.p){const b=el('button','det-act det-phone');b.innerHTML=svg('phone',13,2)+' '+p.p;b.onclick=()=>window.open('tel:+49'+p.p.replace(/\D/g,'').slice(1));acts.appendChild(b);}
+  const acts=document.getElementById('iov-acts');
+  buildDetActs(p,acts);
   iov.classList.add('on');lockBody();
 }
 function closeInfoSheet(){iov.classList.remove('on');unlockBody();}
