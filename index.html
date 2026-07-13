@@ -260,9 +260,10 @@ input{font:inherit;color:inherit;background:none;border:none;outline:none}
   font-size:var(--btnfs);font-weight:600;transition:opacity .12s,transform .1s;flex:1;justify-content:center}
 .det-act:active{opacity:.82;transform:scale(.98)}
 .det-maps{color:#fff;background:var(--primary)}
-.det-phone{color:#1FA04A;background:rgba(52,199,89,.14)}
+.det-phone{color:#1FA04A;background:#E3F7E8}
 .det-google{color:#fff;background:var(--primary)}
-.det-web,.det-maps2{color:var(--blue);background:rgba(74,144,196,.13)}
+.det-web,.det-maps2{color:var(--blue);background:#E8F1F7}
+.hotel-section .det-act:not(.det-google){background:var(--white)}
 
 /* ══ PLAN VIEW ══ */
 #plan{padding:20px var(--ph) calc(70px + env(safe-area-inset-bottom,0px))}
@@ -1190,14 +1191,14 @@ function renderDiscover(){
   hstop.onclick=()=>hs.classList.toggle('open');
   hs.appendChild(hstop);
   const hsa=el('div','hotel-section-acts');
-  // Wie Orte: Google + Maps Text, Phone als Icon (3er-Konstellation)
-  const hg=el('button','det-act det-google','Google');
-  hg.onclick=e=>{e.stopPropagation();openExternal('https://www.google.com/search?q='+encodeURIComponent('54 Grad Nord Apartments Hörnum Sylt'));};
-  hsa.appendChild(hg);
-  const hmaps=el('button','det-act det-maps2');
+  // Maps primary, Website secondary, Phone icon
+  const hmaps=el('button','det-act det-google');
   hmaps.innerHTML=svg('pin',16,2)+' Maps';
   hmaps.onclick=e=>{e.stopPropagation();openMaps('54 Grad Nord Apartments Hörnum Sylt');};
   hsa.appendChild(hmaps);
+  const hw=el('button','det-act det-web','Website');
+  hw.onclick=e=>{e.stopPropagation();openExternal('https://das54gradnord.de');};
+  hsa.appendChild(hw);
   const hph=el('button','det-act det-phone det-ico');
   hph.innerHTML=svg('phone',20,2);
   hph.onclick=e=>{e.stopPropagation();location.href='tel:+494651449170';};
