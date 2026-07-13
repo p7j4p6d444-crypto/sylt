@@ -670,13 +670,17 @@ function starIcon(sz=11){return `<svg xmlns="http://www.w3.org/2000/svg" width="
 function svg(k,sz=20,sw=1.8){return `<svg xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="${sw}">${IC[k]}</svg>`;}
 
 /* ── PLATFORM-AWARE MAPS ── */
+const IS_IOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
 function openMaps(query){
   const q=encodeURIComponent(query);
-  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
-  if(isIOS)
-    window.open('https://maps.apple.com/?q='+q,'_blank');
-  else
-    window.open('https://www.google.com/maps/search/?api=1&query='+q,'_blank');
+  location.href=IS_IOS
+    ?'https://maps.apple.com/?q='+q
+    :'https://www.google.com/maps/search/?api=1&query='+q;
+}
+function openExternal(url){
+  // iOS-PWA: echtes Safari statt In-App-Browser
+  if(IS_IOS)location.href='x-safari-'+url;
+  else window.open(url,'_blank');
 }
 
 /* ── DATA ── */
@@ -971,10 +975,10 @@ function buildDetActs(p,container){
   container.innerHTML='';
   const acts=[];
   if(['restaurant','cafe','einkaufen'].includes(p.c))
-    acts.push({l:'Google',i:'srch',cls:'',fn:()=>window.open('https://www.google.com/search?q='+encodeURIComponent(p.n+' Sylt'),'_blank')});
+    acts.push({l:'Google',i:'srch',cls:'',fn:()=>openExternal('https://www.google.com/search?q='+encodeURIComponent(p.n+' Sylt'))});
   if(p.m)acts.push({l:'Maps',i:'pin',cls:'det-maps2',fn:()=>openMaps(p.m)});
-  if(p.w)acts.push({l:'Website',i:'globe',cls:'det-web',fn:()=>window.open(p.w,'_blank')});
-  if(p.p)acts.push({l:'Anrufen',i:'phone',cls:'det-phone',fn:()=>window.open('tel:+49'+p.p.replace(/\D/g,'').slice(1))});
+  if(p.w)acts.push({l:'Website',i:'globe',cls:'det-web',fn:()=>openExternal(p.w)});
+  if(p.p)acts.push({l:'Anrufen',i:'phone',cls:'det-phone',fn:()=>{location.href='tel:+49'+p.p.replace(/\D/g,'').slice(1);}});
   if(!acts.length)return;
   const n=acts.length;
   const mk=(a,mode)=>{ // mode: 'primary' | 'text' | 'icon'
@@ -1180,7 +1184,7 @@ function renderDiscover(){
   const hsa=el('div','hotel-section-acts');
   // Wie Orte: Google + Maps Text, Phone als Icon (3er-Konstellation)
   const hg=el('button','det-act det-google','Google');
-  hg.onclick=e=>{e.stopPropagation();window.open('https://www.google.com/search?q='+encodeURIComponent('54 Grad Nord Apartments Hörnum Sylt'),'_blank');};
+  hg.onclick=e=>{e.stopPropagation();openExternal('https://www.google.com/search?q='+encodeURIComponent('54 Grad Nord Apartments Hörnum Sylt'));};
   hsa.appendChild(hg);
   const hmaps=el('button','det-act det-maps2');
   hmaps.innerHTML=svg('pin',16,2)+' Maps';
@@ -1188,7 +1192,7 @@ function renderDiscover(){
   hsa.appendChild(hmaps);
   const hph=el('button','det-act det-phone det-ico');
   hph.innerHTML=svg('phone',20,2);
-  hph.onclick=e=>{e.stopPropagation();window.open('tel:+494651449170');};
+  hph.onclick=e=>{e.stopPropagation();location.href='tel:+494651449170';};
   hsa.appendChild(hph);
   hs.appendChild(hsa);
   hs.appendChild(el('div','hotel-section-sep'));
