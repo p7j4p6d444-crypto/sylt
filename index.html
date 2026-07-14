@@ -263,7 +263,8 @@ input{font:inherit;color:inherit;background:none;border:none;outline:none}
 .det-phone{color:#1FA04A;background:#E3F7E8}
 .det-google{color:#fff;background:var(--primary)}
 .det-web,.det-maps2{color:var(--blue);background:#E8F1F7}
-.hotel-section .det-act:not(.det-google){background:var(--white)}
+.hotel-section .det-web{border:none;background:rgba(255,255,255,.82)}
+.hotel-section .det-phone{border:none;background:rgba(255,255,255,.82)}
 
 /* ══ PLAN VIEW ══ */
 #plan{padding:20px var(--ph) calc(70px + env(safe-area-inset-bottom,0px))}
@@ -1196,10 +1197,11 @@ function renderDiscover(){
   hmaps.innerHTML=svg('pin',16,2)+' Maps';
   hmaps.onclick=e=>{e.stopPropagation();openMaps('54 Grad Nord Apartments Hörnum Sylt');};
   hsa.appendChild(hmaps);
-  const hw=el('button','det-act det-web','Website');
+  const hw=el('button','det-act det-web det-ico2');
+  hw.innerHTML=svg('globe',21,2);
   hw.onclick=e=>{e.stopPropagation();openExternal('https://das54gradnord.de');};
   hsa.appendChild(hw);
-  const hph=el('button','det-act det-phone det-ico');
+  const hph=el('button','det-act det-phone det-ico2');
   hph.innerHTML=svg('phone',20,2);
   hph.onclick=e=>{e.stopPropagation();location.href='tel:+494651449170';};
   hsa.appendChild(hph);
